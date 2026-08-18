@@ -103,10 +103,10 @@
 # if bar(-1) == None:
 #     print("양의 정수만 입력 하세요")
 
-def get_sum_avg(arg_a, arg_b):
-    value_sum = arg_a + arg_b
-    value_avg = value_sum / 2
+# def get_sum_avg(arg_a, arg_b):
+#     value_sum = arg_a + arg_b
+#     value_avg = value_sum / 2
 
-    return value_sum, value_avg
+#     return value_sum, value_avg
 
-print(type(get_sum_avg(2, 4)))
+# print(type(get_sum_avg(2, 4)))
