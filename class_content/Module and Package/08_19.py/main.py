@@ -59,4 +59,4 @@
 # for _ in range(6):
 #     print(rd.randint(1, 45))
 
-https://chatgpt.com/s/t_6a85815062008191bb62246b53698683
+url = "https://chatgpt.com/s/t_6a85815062008191bb62246b53698683"
