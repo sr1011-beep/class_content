@@ -1,0 +1,46 @@
+1. 자바 개발 환경 구성
+-JDK(java development kit)
+ : JDK 1.5, 1.8, 17, 21(LTS)
+ - IDE(편집툴?) : netbeans, Eclipse, JBuilder(?), IntelliJ
+
+2. 자바 기본적 특징
+- 자바 소스코드 기본 특징
+ (1) 자바소스 코드 확장자는 xxx.java 로 끝남
+ (2) 자바소스 코드  파일명은 소스코드 내의 클래스 명과 동일
+    ex) public class HelloJava {} -> HelloJava.java
+ (3) 자바소스 코드는 class가 먼저 만들어지고 내부에 코드를 만들어 주어야 함. 즉, class 없는 자바 소스코드는 존재 불가.
+ (4) 자바소스 코드 컴파일 후 결과물로 xxx.class 파일이 만들어짐
+    -> xxx.class 파일은 자바 실행파일 이라고 생각
+    ex) public class HelloJava {} -> HelloJava.java
+     컴파일 후 -> HelloJava.class 파일이 생성
+
+- JVM(Java Virtual Machine)
+ : xxx.class 파일은 특정 운영체제에서 실행가능한 파일이 아니라 JVM에서
+ 실행 가능한 파일이다.
+ : 자바 컴파일 결과물은 JVM 덕분에 하나의 결과물로 다른 운영체제에서 똑같이 실행이 가능.
+ : 윈도우용 JVM, 리눅스용 JVM
+ : 자바 실행환경을 구성할때 JRE 설치(JRE에 JVM이 포함)
+
+3. 기본 자료형
+- 변수 : 계속 변경되는 값을 저장하는 공간
+        기본적으로 변수를 제일 처음 정의할 때
+        변수값에 범위를 정해줘야 함(효율적)
+- 자바에서 변수의 범위를 정하기 위해 사용하는 제일 기본적인 자료형
+-> 자바 기본자료형
+- 큰 분류 4가지
+ (1) 정수형 : byte - short - int -long
+ (2) 실수형 : float - double
+ (3) 문자형 : char
+ (4) boolean형 : boolean
+
+ int x = 10;
+ int y = x;
+ x = 100;
+ y = ? 10
+
+int[ ] x = {10,20,30};
+int[ ] y = x;
+x [ 0 ] = 100;
+y [ 0 ] = 100
+
+"https://chatgpt.com/s/t_6a8fecaddd008191925ffbc30de4dcfc"
