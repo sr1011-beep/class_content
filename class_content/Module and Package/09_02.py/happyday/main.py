@@ -61,11 +61,11 @@
 # print(gsc_1.g_2.name)
 # print(gsc_1.g_3.name)
 
-import gsc_1
+# import gsc_1
 
-print(gsc_1.g_1.name)
-print(gsc_1.g_2.name)
-print(gsc_1.g_3.name)
+# print(gsc_1.g_1.name)
+# print(gsc_1.g_2.name)
+# print(gsc_1.g_3.name)
 
 # gsc_1 -> 디렉토리? 또는 .py?
 # 디렉토리이면 -> 패키지 방식으로 처리
@@ -73,3 +73,4 @@ print(gsc_1.g_3.name)
 # 1) 있다면 -> 일반 패키지로 처리
 # 2) 없다면 -> namespace 패키지로 처리
 # 일반 패키지이면 -> __init__.py 를 실행
+
