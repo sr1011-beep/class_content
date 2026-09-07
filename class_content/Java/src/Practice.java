@@ -1,20 +1,15 @@
-public class Practice {
+import java.util.Scanner;
 
+class Practice {
     public static void main(String args[]) {
-        int x = 10;
-        int y = 20;
-        System.out.println("x=" + x);
-        System.out.println("y=" + y);
+        Scanner scanner = new Scanner(System.in);
 
-        int tmp;
-        
-        tmp = x;
-        x = y;
-        y = tmp;
-        System.out.println("x=" + x);
-        System.out.println("y=" + y);
+        System.out.print("두자리 정수를 하나 입력해주세요.>");
+        String input = scanner.nextLine();
+        int num = Integer.parseInt(input);
 
-        
+        System.out.println("입력내용 : "+input);
+        System.out.printf("num=%d%n", num);
+
     }
-
 }
