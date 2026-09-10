@@ -18,11 +18,6 @@
 
 # print(sub_g1.name)
 
-import sys
-
-sys.path.append(r"C:\Temp\company_package")
-
-
 import gsc.sub2_gsc.c_module as cm
 
 print(cm.name)
