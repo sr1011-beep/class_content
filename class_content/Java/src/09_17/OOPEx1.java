@@ -1,0 +1,43 @@
+
+// 객체지향형 프로그래밍 출발점
+// 유지보수가 편리한 프로그래밍 출발점
+
+class Person {
+    private String name;
+    public int age;
+
+    public void setName( String n ) {
+        name = n + "님";
+    }
+    public String getName( ) {
+        return name;
+    }
+}
+
+public class OOPEx1 {
+
+    public static void main(String args[]) {
+
+        // 다음 코드는 객체지향형 프로그램인가?
+        // => 다음 코드는 유지보수 관리가 편한 프로그램인가?
+        Person p1 = new Person();
+        //p1.name = "김길동씨";  // 이건 OOP가 아님 -> 유지보수가 불편함
+        p1.setName("김길동");       // 유지보수가 편해짐
+        p1.age = 20;
+        System.out.println( p1.getName() );
+        System.out.println( p1.age );
+
+
+        Person p2 = new Person();
+        // p2.name = "박길동"+"씨";
+        p2.setName("박길동");
+        p2.age = 25;
+
+        Person p3 = new Person();
+        // p3.name = "홍길동"+"씨";
+        p3.setName("홍길동");
+        p3.age = 30;
+
+    }
+
+}
