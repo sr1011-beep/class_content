@@ -6,6 +6,22 @@ class Person {
     private String name;
     public int age;
 
+    // 멤버변수 초기화 하기 위한 생성자
+    // 생성자 3개를 정의
+    // (1) 아무런 입력을 받지 않는 생성자
+    public Person() {
+        this( "김길동", 20);
+    }
+    // (2) 나이, 이름 순으로 값을 받는 생성자
+    public Person( int age, String name ) {
+        this ( name , age ); // 파라미터 이름, 나이를 받는 생성자 호출
+    }
+    // (3) 이름, 나이 순으로 값을 받는 생성자
+    public Person( String name, int age ) {
+        this.name = name+"님";
+        this.age = age;
+    }
+
     public void setName( String n ) {
         name = n + "님";
     }
