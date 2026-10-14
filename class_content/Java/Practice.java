@@ -15,12 +15,54 @@
 // }
 
 
-public class Practice {
-    static int[] x = new int[]{10, 20, 30};
+// public class Practice {
+//     static int[] x = new int[]{10, 20, 30};
 
 
-    public static void main(String args[]) {
-        System.out.println(x);
+//     public static void main(String args[]) {
+//         System.out.println(x);
         
-    }
-}
+//     }
+// }
+
+
+// public class Practice {
+
+//     public static int hello() {
+//         return 10;
+    
+//     }
+
+//     public static void main(String[] args) {
+//         System.out.println(hello());
+//     }
+// }
+
+
+// class Person {
+//     String name;
+//     int age;
+
+//     Person() {
+//         this("김길동", 20);
+//     }
+
+//     Person(String name, int age) {
+//         this.name = name;
+//         this.age = age;
+//     }
+
+//     void printInfo() {
+//         System.out.println(name);
+//         System.out.println(age);
+//     }
+// }
+
+// public class Practice {
+//     public static void main(String[] args) {
+//         Person p = new Person();
+//         p.printInfo();
+//     }
+// }
+
+

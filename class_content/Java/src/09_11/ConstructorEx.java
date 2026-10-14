@@ -28,6 +28,7 @@
         public static void main( String args[] ) {
             MyCon m1 = new MyCon(10, "김길동" );
             System.out.println(m1.name);
+            System.out.println(m1.age);
 
             MyCon m2 = new MyCon("박길동", 30);
             System.out.println(m2.name);
