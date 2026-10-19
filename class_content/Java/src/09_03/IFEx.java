@@ -10,7 +10,7 @@ public class IFEx {
             System.out.println("그래서 학점은 A다");
         } else { // 조건을 만족하지 않으면
             System.out.println("90점 미만입니다");
-            System.out.println("그래서 학점은 B인가?");;
+            System.out.println("그래서 학점은 B인가?");
         }
 
         // 자바 제어문 if 기본 문법
