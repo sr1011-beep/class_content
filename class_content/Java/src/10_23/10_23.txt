@@ -1,0 +1,33 @@
+10/23
+1. abstract 메소드 왜 쓰나?
+- 추상화 메소드는 하위 클래스에서 구현이 강제되어짐
+- 하위클래스에서 추상화메소드 오버라이딩 해서 구현해주지 않으면 해당 클래스도 추상화 클래스가 되며 객체화가 불가능해짐
+ex: abstract class Animal {
+    abstract public void cry();
+    }
+    - 위 동물 추상화 클래스를 상속 받는 하위 동물계열 클래스에서는 운다라는 기능을 전부 cry() 메소드를 오버라이딩 해서 구현해야함(강제되어짐)
+    - 모든 동물 계열 클래스에는 cry()라는 운다라는 기능이 구현된 메소드가 있다라는게 보장되어짐
+
+2. interface 주요 목적 및 특징
+- 자바는 클래스 단일상속만 지원
+- 단일상속을 보완하기 위해 interface 사용
+    ex: class Test extends JFrame implements ActionListner{}
+    - 인터페이스는 다중 구현 가능
+    ex : class Test implements A, B, C {}
+
+* 보통 인터페이스는 이름을 특정 개체를 가르키는 이름을 쓰기 보다는 동작을 나타내는 이름을 많이 사용
+ interface Run{}
+ Interface Eat{}
+ 그렇지만 클래스 이름은 주로 특정 사물, 개체를 가르키는 이름을 사용
+ class Animal{}
+ class Book{}
+ class Cat extends Animal implements Fly {}
+
+interface Animal {
+    public void cry();
+}
+
+3. 계산기 만들어 보기
+- 버튼 클릭 처리
+
+. 계산기 로직 처리
