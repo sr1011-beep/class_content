@@ -36,11 +36,63 @@
 </head>
 
 <body>
-    
+
+
     <div class="intro">
         <h1>백승록</h1>
         <p> 글로벌시스템융합과 1학년 - 강의실 VLM 프로젝트 팀원</p>
         <img src="cat.jpg" alt="고양이" width="300">
+    </div>
+        <div class="content">
+        <h1>할 일 목록</h1>
+    
+        <!-- input : 글자를 입력하는 입력창--> <!-- type : 문자 입력용 -->
+        <!-- id : JavaScript에서 이 입력창을 찾기 위한 이름 -->
+        <!-- placeholoder : 입력창 입력 전에 보이는 안내 문구 -->
+        <input type="text" id="todoInput" placeholder="할 일을 입력하세요">
+        <botton id="addBtn">추가</botton>
+
+        <!-- JS가 li을 추가 -->
+        <ul id="todoList"></ul>
+        
+        <script>
+            function addTodo() {
+                let input = document.getElementById("todoInput");
+                let text = input.value;
+
+                // 빈 칸이면 추가하지 않음
+                if (text.trim() === "") {
+                    return;
+                }
+
+                // li 생성
+                let li = document.createElement("li");
+
+                // 입력한 글을 li에 넣기
+                li.textContent = text;
+
+                // ul 안에 li 추가
+                document.getElementById("todoList").appendChild(li);
+
+                // 입력창 비우기
+                input.value = "";
+
+            }
+            
+            // 버튼 클릭
+            document.getElementById("addBtn").addEventListener("click", function() {
+                addTodo();
+            });
+            
+            
+            // 엔터 키로도 추가
+            document.getElementById("todoInput").addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    addTodo();
+                }
+            });
+        </script>
+
     </div>
 
     <div class="content">
@@ -69,18 +121,6 @@
     <div class="content">
         <h1>연락처</h1>
         <a href="https://github.com/sr1011-beep" target="_blank">GitHub 바로가기</a>
-
-        <input type="text" id="name">
-        <button onclick="showName()">확인</button>
-
-        <script>
-        function showName() {
-            let name = document.getElementById("name").value;
-
-            alert(name);
-        }
-        </script>
-
     </div>
     
 
