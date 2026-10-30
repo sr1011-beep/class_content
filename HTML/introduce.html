@@ -6,7 +6,7 @@
 
     <style>
         body {
-            background-color: #eeeeee;
+            background-color: #f5f4f4;
         }
 
         .intro {
@@ -50,7 +50,7 @@
 
     <div class="content">
         <h1>프로젝트에서 맡은 일</h1>
-        <ul style="font-family: gulim, sans-serif;">
+        <ul style="font-family: Gulim, sans-serif;">
             <li> 301호 PoE 카메라 4대 설치</li>
             <li> 304호 강의실 사진 수집 확인</li>
         </ul>
@@ -68,8 +68,21 @@
 
     <div class="content">
         <h1>연락처</h1>
-        <a href="https://github.com/sr1011-beep"> GitHub 바로가기</a>
+        <a href="https://github.com/sr1011-beep" target="_blank">GitHub 바로가기</a>
+
+        <input type="text" id="name">
+        <button onclick="showName()">확인</button>
+
+        <script>
+        function showName() {
+            let name = document.getElementById("name").value;
+
+            alert(name);
+        }
+        </script>
+
     </div>
+    
 
 </body>
 </html>
