@@ -31,6 +31,18 @@
             font-size: 15px;
         }
 
+        .done {
+            text-decoration: line-through;
+            color: black;
+        }
+
+        .delete-btn {
+            border: none;
+            background: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+
     </style>
 
 </head>
@@ -52,6 +64,9 @@
         <input type="text" id="todoInput" placeholder="할 일을 입력하세요">
         <botton id="addBtn">추가</botton>
 
+        <p>남은 할 일: <span id="count">0</span>개</p>
+            
+
         <!-- JS가 li을 추가 -->
         <ul id="todoList"></ul>
         
@@ -68,8 +83,39 @@
                 // li 생성
                 let li = document.createElement("li");
 
-                // 입력한 글을 li에 넣기
-                li.textContent = text;
+                // checkbox 생성
+                let checkbox = document.createElement("input");
+                checkbox.type = "checkbox";
+
+                // span 생성
+                let span = document.createElement("span");
+                span.textContent = text;
+
+                // deleteButton 생성
+                let deleteButton = document.createElement("button");
+                deleteButton.texContent = "x";
+                deleteButton.classList.add("delete-btn")
+
+                checkbox.addEventListener("change", function() {
+                    span.classList.toggle("done");
+                    updateCount();
+                });
+
+                deleteButton.addEventListener("click", function() {
+                    li.remove();
+                    updateCount();
+                })
+
+                li.appendChild(checkbox)
+                li.appendChild(span);
+                li.appendChild(deleteButton);
+
+                document.getElementById("todoList").appendChild(li);
+
+                input.value = "";
+
+                updateCount();
+
 
                 // ul 안에 li 추가
                 document.getElementById("todoList").appendChild(li);
@@ -78,6 +124,24 @@
                 input.value = "";
 
             }
+
+            // 남은 할 일 개수를 카운트하기 위한 함수
+            function updateCount() {
+                let checkboxes = document.querySelectorAll(
+                    '#todoList input[type="checkbox"]'
+                );
+
+                let count = 0;
+
+                checkboxes.forEach(function(checkbox) {
+                    if (!checkbox.checked) {
+                        count++;
+                    }
+                });
+
+                document.getElementById("count").textContent = count;
+            }
+
             
             // 버튼 클릭
             document.getElementById("addBtn").addEventListener("click", function() {
