@@ -1,3 +1,14 @@
+/* 다크 모드 아이콘*/
+#themeBtn {
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+}
+
+
+
 body {
     background-color: #eeeeee;
     color: black;
@@ -17,6 +28,7 @@ body.dark .delete-btn {
     color : white;
 }
 
+/* 상단 타이틀 */
 .intro {
     background-color: #6d777a;
     color: white;
@@ -24,6 +36,7 @@ body.dark .delete-btn {
     padding: 50px; /* 콘텐츠와 테두리 사이 여백 공간 */
 }
 
+/* 문단 */
 .content {
     background-color: white;
     color: black;
@@ -55,5 +68,9 @@ body.dark .delete-btn {
 input[type="checkbox"] {
 margin-right: 15px;
 
+}
+
+.content h1 {
+    cursor: pointer;
 }
 

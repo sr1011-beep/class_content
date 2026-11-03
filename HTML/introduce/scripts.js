@@ -88,9 +88,35 @@ themeBtn.addEventListener("click", function() {
     document.body.classList.toggle("dark");
 
     if (document.body.classList.contains("dark")) {
-        themeBtn.textContent = "라이트 모드";
+        themeBtn.textContent = "☀️";
     } else {
-        themeBtn.textContent = "다크 모드";
+        themeBtn.textContent = "🌙";
     }
 
 });
+
+
+/* 문단 섹션 추가 */
+
+let sections = document.querySelectorAll(".content");
+
+sections.forEach(function(section) {
+    let title = section.querySelector("h1");
+
+    title.addEventListener("click", function() {
+        let children = section.children;
+
+        for (let i = 1; i < children.length; i++) {
+            if (children[i].style.display === "none") {
+                children[i].style.display = "";
+            } else {
+                children[i].style.display = "none";
+            }
+        }
+    });
+});
+
+/* 댓글 */
+function addComment() {
+    let input = document.getElementById("commentInput");
+}   let text = input.value;
