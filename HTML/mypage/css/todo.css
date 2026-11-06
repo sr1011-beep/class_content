@@ -1,0 +1,173 @@
+
+/* 할 일 목록 전체 영역 */
+.todo-section {
+    text-align: left;
+    border-radius: 16px;
+}
+
+/* 제목 */
+.todo-section h1 {
+    text-align: left;
+    margin: 0 0 10px;
+}
+
+/* 제목 아래 설명 */
+.todo-description {
+    text-align: left;
+    font-size: 14px;
+    color: #888;
+    margin: 0 0 22px;
+}
+
+/* 입력창과 버튼 가로 배치 */
+.todo-input-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+/* 할 일 입력창 */
+#todoInput {
+    flex: 1;
+    min-width: 0;
+    padding: 13px 18px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: #f8f9fa;
+    color: #222;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+}
+
+/* 입력창 선택 시 */
+#todoInput:focus {
+    border-color: #8ba6df;
+}
+
+/* 추가 버튼 */
+#addBtn {
+    border: none;
+    border-radius: 12px;
+    background-color: #637fbd;
+    color: white;
+    padding: 13px 20px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+/* 추가 버튼 마우스 효과 */
+#addBtn:hover {
+    background-color: #4f6da9;
+}
+
+/* 남은 할 일 + 진행률 */
+.todo-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* 진행률 표시 */
+#progressText {
+    font-weight: bold;
+    color: #637fbd;
+}
+
+/* 진행률 바 배경 */
+.progress-track {
+    width: 100%;
+    height: 10px;
+    background-color: #e5e7eb;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+/* 실제로 차오르는 게이지 */
+#progressBar {
+    width: 0%;
+    height: 100%;
+    background-color: #637fbd;
+    border-radius: 999px;
+    transition: width 0.4s ease;
+}
+
+/* 할 일 목록 */
+#todoList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* 개별 할 일 */
+#todoList li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background-color: #f7f8fa;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+}
+
+/* 체크박스 */
+#todoList input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: #637fbd;
+    cursor: pointer;
+}
+
+/* 할 일 내용 */
+#todoList li span {
+    flex: 1;
+    overflow-wrap: anywhere;
+}
+
+/* 완료한 할 일 */
+#todoList .done {
+    text-decoration: line-through;
+    color: #999;
+}
+
+/* 삭제 버튼 */
+#todoList .delete-btn {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 22px;
+    margin-left: 0;
+    cursor: pointer;
+}
+
+/* 다크모드 */
+body.dark #todoInput {
+    background-color: #292929;
+    color: white;
+    border-color: #555;
+}
+
+body.dark #todoList li {
+    background-color: #292929;
+    border-color: #444;
+}
+
+body.dark .todo-description,
+body.dark .todo-status {
+    color: #aaa;
+}
+
+body.dark .progress-track {
+    background-color: #444;
+}
+
+body.dark #todoList .done {
+    color: #999;
+}

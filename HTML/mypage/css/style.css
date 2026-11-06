@@ -1,0 +1,67 @@
+/* 기본 페이지 디자인 */
+body {
+    background-color: #eeeeee;
+    color: black;
+}
+
+/* 상단 타이틀 */
+.intro {
+    position: relative; /* 자식 요소 위치의 기준점 */
+
+    background-color: #6d777a;
+    color: white;
+    text-align: center;
+    padding: 50px;
+}
+
+/* 공통 문단 디자인 */
+.content {
+    background-color: white;
+    color: black;
+    padding: 30px;
+    margin-top: 20px;
+}
+
+/* 공부 중인 것 */
+.skills span {
+    background-color: #bee2ec;
+    padding: 8px 20px;
+    border-radius: 10px;
+    margin-right: 7px;
+    font-size: 15px;
+}
+
+/* 문단 제목을 클릭할 수 있도록 설정 */
+.content h1 {
+    cursor: pointer;
+}
+
+/* 다크모드 아이콘 */
+#themeBtn {
+    position: absolute; /* 원하는 위치에 배치 */
+    top: 20px;           /* 상단에서 20px */
+    right: 20px;         /* 오른쪽에서 20px */
+
+    border: none;
+    background: none;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* 다크모드 기본 배경 */
+body.dark {
+    background-color: #222;
+    color: white;
+}
+
+/* 다크모드 문단 배경 */
+body.dark .content {
+    background-color: #333;
+    color: white;
+}
+
+/* 다크모드 삭제 버튼 */
+body.dark .delete-btn {
+    color: white;
+}

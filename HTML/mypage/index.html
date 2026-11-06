@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>自己紹介</title>
+
+    <!-- 전체 페이지 기본 디자인 -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- 할 일 목록 디자인 -->
+    <link rel="stylesheet" href="css/todo.css">
+
+    <!-- 댓글 디자인 -->
+    <link rel="stylesheet" href="css/comment.css">
+</head>
+<body>
+
+    <!-- 메인 인트로 문단 -->
+    <div class="intro">
+        
+        <!-- 다크/라이트 모드 버튼 -->
+        <button id="themeBtn">🌙</button>
+
+        <h1>백승록</h1>
+        <p> 글로벌시스템융합과 1학년 - 강의실 VLM 프로젝트 팀원</p>
+        <img src="images/cat.jpg" alt="고양이" width="300">
+    </div>
+    
+
+    <!-- 할 일 목록 -->
+<div class="content todo-section">
+    <h1>할 일 목록</h1>
+
+    <p class="todo-description">
+        오늘 할 일을 하나씩 완료해 보세요.
+    </p>
+
+    <!-- 입력창 및 추가 버튼 -->
+    <div class="todo-input-wrap">
+        <input type="text" id="todoInput" placeholder="할 일을 입력하세요">
+        <button id="addBtn">+ 추가</button>
+    </div>
+
+    <!-- 남은 할 일과 완료율 -->
+    <div class="todo-status">
+        <span>남은 할 일: <strong id="count">0</strong>개</span>
+        <span id="progressText">0% 완료</span>
+    </div>
+
+    <!-- 완료율 게이지 -->
+    <div class="progress-track">
+        <div id="progressBar"></div>
+    </div>
+
+    <!-- JavaScript에서 할 일을 추가하는 영역 -->
+    <ul id="todoList"></ul>
+    
+</div>
+    <!-- 소개 문단 -->
+    <div class="content">
+        <h1>소개</h1>
+        <p> 카메라와 AI로 강의실 상태를 알려주는 시스템을 만들고 있습니다.</p>
+    </div>
+
+    <!-- 프로젝트에서 맡은 일 문단 -->
+    <div class="content">
+        <h1>프로젝트에서 맡은 일</h1>
+        <ul style="font-family: Gulim, sans-serif;">
+            <li> 301호 PoE 카메라 4대 설치</li>
+            <li> 304호 강의실 사진 수집 확인</li>
+        </ul>
+    </div>
+    
+    <!-- 공부 목록 문단 -->
+    <div class="content">
+        <h1>공부 중인 것</h1>
+
+        <div class="skills">
+            <span>HTML</span>
+            <span>CSS</span>
+            <span>Java</span>
+        </div>
+    </div>
+
+    <!-- 연락처 문단 -->
+    <div class="content">
+        <h1>연락처</h1>
+        <a href="https://github.com/sr1011-beep" target="_blank">GitHub 바로가기</a>
+    </div>
+
+<!-- 댓글 영역 전체를 감싸는 구역 -->
+<!-- content: 기존 공통 스타일 -->
+<!-- comment-section: 댓글 전용 스타일 -->
+<div class="content comment-section">
+
+    <!-- 댓글 제목 -->
+    <h1>댓글</h1>
+
+    <!-- 입력창과 등록 버튼을 하나의 구역으로 묶음 -->
+    <div class="comment-input-wrap">
+
+        <!-- 사용자가 댓글을 입력하는 창 -->
+        <!-- id는 JavaScript에서 해당 요소를 찾기 위한 이름 -->
+        <input type="text" id="commentInput" placeholder="댓글을 입력하세요">
+        <!-- 댓글 등록 버튼 -->
+        <button id="commentBtn">등록</button>
+    </div>
+
+    <!-- 댓글이 없을 때 표시되는 문구 -->
+    <p id="emptyMessage">아직 댓글이 없습니다.</p>
+    <!-- JavaScript가 새로운 li(댓글)를 추가할 목록 -->
+    <ul id="commentList"></ul>
+
+</div>
+    
+    <!-- scripts.js -->
+    <script src="js/scripts.js"></script>
+</body>
+</html>
