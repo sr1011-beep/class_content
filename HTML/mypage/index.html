@@ -14,17 +14,21 @@
 </head>
 <body>
 
-    <!-- 메인 인트로 문단 -->
-    <div class="intro">
-        
-        <!-- 다크/라이트 모드 버튼 -->
-        <button id="themeBtn">🌙</button>
+<!-- 메인 인트로 문단 -->
+<div class="intro">
 
-        <h1>백승록</h1>
-        <p> 글로벌시스템융합과 1학년 - 강의실 VLM 프로젝트 팀원</p>
-        <img src="images/cat.jpg" alt="고양이" width="300">
+    <h1>백승록</h1>
+    <p> 글로벌시스템융합과 1학년 - 강의실 VLM 프로젝트 팀원</p>
+
+    <!-- 이미지 접기/펼치기 영역 -->
+    <div class="image-section">
+    <img id="profileImage" src="images/nugul.jpg" alt="프로필 사진" width="300">
+
+    <!-- 사진이 접혔을 때 표시할 아이콘 -->
+    <button id="imageOpenBtn" hidden>📷</button>
     </div>
-    
+
+</div>
 
     <!-- 할 일 목록 -->
 <div class="content todo-section">
@@ -64,7 +68,7 @@
     <!-- 프로젝트에서 맡은 일 문단 -->
     <div class="content">
         <h1>프로젝트에서 맡은 일</h1>
-        <ul style="font-family: Gulim, sans-serif;">
+        <ul style="font-family: sans-serif;">
             <li> 301호 PoE 카메라 4대 설치</li>
             <li> 304호 강의실 사진 수집 확인</li>
         </ul>
@@ -75,10 +79,21 @@
         <h1>공부 중인 것</h1>
 
         <div class="skills">
-            <span>HTML</span>
-            <span>CSS</span>
-            <span>Java</span>
-        </div>
+    <div class="skill">
+        HTML
+        <span class="tooltip">웹페이지의 구조를 만드는 언어</span>
+    </div>
+
+    <div class="skill">
+        CSS
+        <span class="tooltip">웹페이지의 디자인을 담당하는 언어</span>
+    </div>
+
+    <div class="skill">
+        Java
+        <span class="tooltip">객체지향 프로그래밍 언어</span>
+    </div>
+</div>
     </div>
 
     <!-- 연락처 문단 -->
@@ -87,32 +102,61 @@
         <a href="https://github.com/sr1011-beep" target="_blank">GitHub 바로가기</a>
     </div>
 
-<!-- 댓글 영역 전체를 감싸는 구역 -->
-<!-- content: 기존 공통 스타일 -->
-<!-- comment-section: 댓글 전용 스타일 -->
+<!-- =========================
+     댓글 섹션
+========================= -->
+
 <div class="content comment-section">
 
-    <!-- 댓글 제목 -->
-    <h1>댓글</h1>
+    <h1>댓글 <span id="commentCount">0</span></h1>
 
-    <!-- 입력창과 등록 버튼을 하나의 구역으로 묶음 -->
-    <div class="comment-input-wrap">
+    <!-- 댓글 작성 영역 -->
+    <div class="comment-form">
 
-        <!-- 사용자가 댓글을 입력하는 창 -->
-        <!-- id는 JavaScript에서 해당 요소를 찾기 위한 이름 -->
-        <input type="text" id="commentInput" placeholder="댓글을 입력하세요">
+        <!-- 닉네임 입력 -->
+        <input
+            type="text"
+            id="nicknameInput"
+            placeholder="닉네임"
+            maxlength="20"
+        >
+
+        <!-- 댓글 입력 -->
+        <textarea
+            id="commentInput"
+            placeholder="댓글을 입력하세요..."
+            rows="3"
+            maxlength="500"
+        ></textarea>
+
         <!-- 댓글 등록 버튼 -->
-        <button id="commentBtn">등록</button>
+        <div class="comment-actions">
+            <button id="commentBtn">댓글 등록</button>
+        </div>
+
     </div>
 
-    <!-- 댓글이 없을 때 표시되는 문구 -->
+    <!-- 댓글이 없을 때 표시 -->
     <p id="emptyMessage">아직 댓글이 없습니다.</p>
-    <!-- JavaScript가 새로운 li(댓글)를 추가할 목록 -->
+
+    <!-- 댓글 목록 -->
     <ul id="commentList"></ul>
 
 </div>
-    
-    <!-- scripts.js -->
+
+    <!-- 플로팅 메뉴 -->
+    <div class="floating-menu">
+        <button id="topBtn">↑</button>
+        <button id="bottomBtn">↓</button>
+        <button id="themeBtn">🌙</button>
+    </div>
+
+    <!-- JavaScript 연결 -->
     <script src="js/scripts.js"></script>
+
+</body>
+</html>
+
+</div>
 </body>
 </html>

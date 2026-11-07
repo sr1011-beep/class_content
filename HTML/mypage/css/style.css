@@ -22,46 +22,211 @@ body {
     margin-top: 20px;
 }
 
-/* 공부 중인 것 */
-.skills span {
-    background-color: #bee2ec;
-    padding: 8px 20px;
-    border-radius: 10px;
-    margin-right: 7px;
-    font-size: 15px;
+
+/* =========================
+   공부 중인 것 버튼
+========================= */
+
+.skills {
+    display: flex;       /* 버튼을 가로로 배치 */
+    gap: 12px;           /* 버튼 사이 간격 */
 }
+
+.skill {
+    position: relative;  /* 툴팁 위치의 기준점 */
+    background-color: #d5dbdb; /* 버튼 배경색 */
+    padding: 10px 20px;  /* 버튼 내부 여백 */
+    border-radius: 10px; /* 버튼 모서리를 둥글게 */
+    cursor: pointer;     /* 마우스를 올리면 손가락 모양 */
+}
+
+
+/* =========================
+   툴팁 디자인
+========================= */
+
+.tooltip {
+    display: none;       /* 기본 상태에서는 툴팁 숨기기 */
+    position: absolute;  /* 버튼을 기준으로 위치 지정 */
+
+    /* 툴팁 위치 */
+    bottom: 125%;        /* 버튼 위쪽으로 배치 */
+    left: 50%;           /* 버튼의 가로 중앙을 기준으로 이동 */
+    transform: translateX(-50%); /* 툴팁을 정확히 중앙 정렬 */
+
+    /* 크기 및 여백 */
+    width: 200px;        /* 툴팁 너비 */
+    padding: 12px 16px;  /* 내부 여백: 위아래 12px, 좌우 16px */
+
+    /* 배경 및 테두리 */
+    background-color: #ffffff; /* 흰색 배경 */
+    border: 1px solid #e5e7eb; /* 연한 회색 테두리 */
+    border-radius: 12px;       /* 둥근 모서리 */
+
+    /* 글씨체 */
+    font-family: "Pretendard", "Noto Sans KR", sans-serif;
+    font-size: 13px;     /* 글자 크기 */
+    font-weight: 400;    /* 일반 글자 굵기 */
+    color: #374151;      /* 진한 회색 글자 */
+    line-height: 1.6;    /* 줄 사이 간격 */
+    text-align: center;  /* 글자 가운데 정렬 */
+    white-space: normal; /* 긴 문장은 자동 줄바꿈 */
+
+    /* 그림자 */
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+
+    /* 다른 요소보다 앞에 표시 */
+    z-index: 10;
+}
+
+
+/* =========================
+   마우스를 올렸을 때
+========================= */
+
+.skill:hover .tooltip {
+    display: block; /* 숨겨진 툴팁 표시 */
+}
+
 
 /* 문단 제목을 클릭할 수 있도록 설정 */
 .content h1 {
     cursor: pointer;
 }
 
-/* 다크모드 아이콘 */
-#themeBtn {
-    position: absolute; /* 원하는 위치에 배치 */
-    top: 20px;           /* 상단에서 20px */
-    right: 20px;         /* 오른쪽에서 20px */
+/* 섹션이 접혔을 때 */
+.content.collapsed {
+    border: 1px solid #b5b5b5;
+    border-radius: 12px;
+    transition: border-color 0.2s ease;
+}
+
+
+
+/* 이미지 영역 */
+.image-section {
+    display: inline-block;
+}
+
+/* 이미지 디자인 */
+#profileImage {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px;
+    cursor: pointer; /* 클릭 가능 표시 */
+}
+
+/* 펼치기 아이콘 */
+#imageOpenBtn {
+    background-color: #d3dcdf;
+    border: none;
+    border-radius: 10px;
+    padding: 12px 18px;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+/* hidden 속성이 있으면 숨기기 */
+#profileImage[hidden],
+#imageOpenBtn[hidden] {
+    display: none;
+}
+
+
+/* =========================
+   플로팅 메뉴
+========================= */
+
+/* 화면 오른쪽 중앙에 메뉴 고정 */
+.floating-menu {
+    position: fixed;        /* 스크롤해도 화면에 고정 */
+
+    right: 20px;            /* 화면 오른쪽에서 20px */
+    top: 50%;               /* 화면 높이의 중앙 */
+    transform: translateY(-50%); /* 메뉴 자체 높이만큼 중앙 보정 */
+
+    display: flex;          /* 버튼 배치 */
+    flex-direction: column; /* 버튼을 세로로 정렬 */
+    gap: 8px;               /* 버튼 사이 간격 */
+
+    padding: 8px;
+
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+
+    z-index: 1000;          /* 다른 요소보다 앞에 표시 */
+}
+
+/* 메뉴 내부 버튼 */
+.floating-menu button {
+    width: 42px;
+    height: 42px;
 
     border: none;
-    background: none;
-    font-size: 28px;
+    border-radius: 10px;
+
+    background-color: transparent;
+    color: #374151;
+
+    font-size: 22px;
     cursor: pointer;
-    padding: 0;
+
+    transition: background-color 0.2s ease;
 }
 
-/* 다크모드 기본 배경 */
+/* 마우스를 올렸을 때 */
+.floating-menu button:hover {
+    background-color: #f1f3f5;
+}
+
+
+/* =========================
+   다크모드
+========================= */
+
+/* 전체 페이지 배경 */
 body.dark {
-    background-color: #222;
-    color: white;
+    background-color: #1e1e1e;
+    color: #ffffff;
 }
 
-/* 다크모드 문단 배경 */
+/* 자기소개 상단 영역 */
+body.dark .intro {
+    background-color: #303030;
+    color: #ffffff;
+}
+
+/* 소개, 공부, Todo List, 댓글 등 섹션 */
 body.dark .content {
-    background-color: #333;
-    color: white;
+    background-color: #2b2b2b;
+    color: #ffffff;
 }
 
-/* 다크모드 삭제 버튼 */
-body.dark .delete-btn {
-    color: white;
+/* 섹션 제목 */
+body.dark .content h1 {
+    color: #ffffff;
+}
+
+/* 접힌 섹션의 테두리 */
+body.dark .content.collapsed {
+    border-color: #555555;
+}
+
+/* 플로팅 메뉴 */
+body.dark .floating-menu {
+    background-color: #303030;
+    border-color: #505050;
+}
+
+/* 플로팅 메뉴 버튼 */
+body.dark .floating-menu button {
+    color: #ffffff;
+}
+
+/* 플로팅 메뉴 마우스 효과 */
+body.dark .floating-menu button:hover {
+    background-color: #454545;
 }

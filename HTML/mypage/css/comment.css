@@ -1,146 +1,188 @@
-/* 댓글 전체 영역 디자인 */
-.comment-section {
-    background-color: #ffffff;
-    color: black;
-    padding: 28px;
-    border-radius: 16px;
-    border: 1px solid #222;
+
+/* =========================
+   댓글 입력 영역
+========================= */
+
+.comment-form {
+    display: flex;            /* 입력 요소를 세로로 배치 */
+    flex-direction: column;
+    gap: 12px;                /* 요소 사이 간격 */
+    margin-bottom: 25px;
 }
 
-/* 댓글 제목 */
-.comment-section h1 {
-    margin-bottom: 20px;
-    color: black;
-}
+/* 닉네임 입력창 */
+#nicknameInput {
+    width: 200px;
+    max-width: 100%;
+    padding: 12px 14px;
 
-/* 입력창과 등록 버튼 가로 배치 */
-.comment-input-wrap {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+
+    font-size: 14px;
+    box-sizing: border-box;
 }
 
 /* 댓글 입력창 */
 #commentInput {
-    flex: 1;
-    min-width: 0;
-    height: 42px;
-    padding: 0 18px;
-    border-radius: 999px;
-    border: 1px solid #444;
-    background-color: #ffffff;
-    color: black;
-    font-size: 16px;
-    outline: none;
+    width: 100%;
+    padding: 14px;
+
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.6;
+
+    resize: vertical;         /* 세로 크기만 조절 가능 */
     box-sizing: border-box;
 }
 
-/* 입력창 안내 문구 */
-#commentInput::placeholder {
-    color: #999999;
+/* 입력창 선택 시 */
+#nicknameInput:focus,
+#commentInput:focus {
+    outline: none;
+    border-color: #7aaec0;
+}
+
+/* 등록 버튼 오른쪽 정렬 */
+.comment-actions {
+    display: flex;
+    justify-content: flex-end;
 }
 
 /* 댓글 등록 버튼 */
 #commentBtn {
+    background-color: #384653;
+    color: white;
+
+    padding: 10px 20px;
     border: none;
-    background-color: rgb(223, 223, 223);
-    color: black;
-    border-radius: 999px;
-    padding: 10px 18px;
-    font-size: 15px;
+    border-radius: 9px;
+
+    font-size: 14px;
     cursor: pointer;
 }
 
-/* 등록 버튼에 마우스를 올렸을 때 */
+/* 마우스를 올렸을 때 */
 #commentBtn:hover {
-    opacity: 0.9;
+    background-color: #526473;
+}
+
+
+/* =========================
+   댓글 목록
+========================= */
+
+#commentList {
+    list-style: none;         /* 목록 점 제거 */
+    padding: 0;
+    margin: 0;
+}
+
+/* 댓글 하나의 영역 */
+#commentList li {
+    position: relative;
+    padding: 18px 4px;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+/* 닉네임과 작성 날짜 */
+.comment-header {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin-bottom: 10px;
+}
+
+/* 닉네임 */
+.comment-nickname {
+    font-size: 14px;
+    font-weight: 600;
+    color: #252525;
+}
+
+/* 작성 날짜 */
+.comment-date {
+    font-size: 12px;
+    color: #999999;
+}
+
+/* 댓글 내용 */
+.comment-text {
+    display: block;
+
+    font-size: 14px;
+    line-height: 1.7;
+    color: #444444;
+
+    white-space: pre-wrap;    /* 댓글 줄바꿈 유지 */
+    overflow-wrap: anywhere; /* 긴 문자열 줄바꿈 */
+    padding-right: 35px;
+}
+
+/* 삭제 버튼 */
+.comment-delete-btn {
+    position: absolute;
+    right: 4px;
+    top: 18px;
+
+    border: none;
+    background: none;
+    color: #999999;
+
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* 삭제 버튼 마우스 효과 */
+.comment-delete-btn:hover {
+    color: #e74c3c;
+}
+
+/* 댓글 개수 */
+#commentCount {
+    font-size: 16px;
+    font-weight: normal;
+    color: #888888;
 }
 
 /* 댓글이 없을 때 안내 문구 */
 #emptyMessage {
-    color: #777777;
-    font-size: 16px;
-    margin: 0;
+    color: #999999;
+    font-size: 14px;
+    text-align: center;
+    padding: 25px 0;
 }
 
-/* 댓글 목록 전체 */
-#commentList {
-    list-style: none;
-    padding: 0;
-    margin-top: 10px;
-}
-
-/* 개별 댓글 */
-#commentList li {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #ffffff;
-    border: 1px solid #2a2a2a;
-    border-radius: 12px;
-    padding: 12px 16px;
-    margin-top: 10px;
-    color: black;
-}
-
-/* 댓글 삭제 버튼 */
-#commentList .delete-btn {
-    border: none;
-    background: none;
-    color: black;
-    font-size: 20px;
-    cursor: pointer;
-    margin-left: 10px;
-}
 
 /* =========================
-   댓글 영역 다크모드
-   ========================= */
+   다크모드
+========================= */
 
-/* 댓글 카드와 제목 */
-body.dark .comment-section {
-    background-color: #333;
-    color: white;
-    border-color: #555;
-}
-
-body.dark .comment-section h1 {
-    color: white;
-}
-
-/* 댓글 입력창 */
+body.dark #nicknameInput,
 body.dark #commentInput {
-    background-color: #222;
+    background-color: #353535;
     color: white;
-    border-color: #555;
+    border-color: #555555;
 }
 
-/* 등록 버튼 */
-body.dark #commentBtn {
-    background-color: #eeeeee;
-    color: black;
+body.dark .comment-nickname {
+    color: #f0f0f0;
 }
 
-/* 댓글 없음 안내 문구 */
-body.dark #emptyMessage {
-    color: #bbbbbb;
+body.dark .comment-text {
+    color: #dddddd;
 }
 
-/* 댓글 내용과 시간을 세로로 배치 */
-#commentList li > div {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-/* 댓글 작성 시간 */
-.comment-time {
-    font-size: 12px;
-    color: #888888;
-}
-
-/* 다크모드 작성 시간 */
-body.dark .comment-time {
+body.dark .comment-date {
     color: #aaaaaa;
+}
+
+body.dark #commentList li {
+    border-bottom-color: #555555;
 }

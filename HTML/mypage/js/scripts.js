@@ -1,32 +1,33 @@
+
 /* =========================
    Todo List + localStorage
 ========================= */
 
-// 저장된 할 일 데이터를 불러오기
+// localStorage에서 저장된 할 일 불러오기
 let todos = JSON.parse(localStorage.getItem("todos")) || [];
 
-// 할 일마다 고유한 번호를 만들기 위한 변수
+// 새로운 할 일의 고유 ID 생성
 let nextId = todos.reduce(function(maxId, todo) {
     return Math.max(maxId, todo.id);
 }, 0) + 1;
 
 
-// localStorage에 할 일 저장
+// localStorage 저장 함수
 function saveTodos() {
     localStorage.setItem("todos", JSON.stringify(todos));
 }
 
 
-// 할 일 목록을 화면에 다시 그리는 함수
+// 할 일 목록을 화면에 출력하는 함수
 function renderTodos() {
 
-    // ul 요소 가져오기
+    // 할 일 목록 ul 가져오기
     let todoList = document.getElementById("todoList");
 
-    // 기존 목록 비우기
+    // 기존 목록 초기화
     todoList.innerHTML = "";
 
-    // 배열에 있는 할 일을 하나씩 처리
+    // 배열에 저장된 할 일을 하나씩 처리
     todos.forEach(function(todo) {
 
         // li 생성
@@ -35,8 +36,6 @@ function renderTodos() {
         // 체크박스 생성
         let checkbox = document.createElement("input");
         checkbox.type = "checkbox";
-
-        // 저장된 완료 상태 반영
         checkbox.checked = todo.completed;
 
         // 할 일 내용 생성
@@ -48,16 +47,16 @@ function renderTodos() {
             span.classList.add("done");
         }
 
-        // 체크박스 상태 변경 이벤트
+        // 체크박스 변경 이벤트
         checkbox.addEventListener("change", function() {
 
-            // 객체의 완료 상태 변경
+            // 완료 상태 변경
             todo.completed = checkbox.checked;
 
-            // 변경된 배열 저장
+            // 변경된 상태 저장
             saveTodos();
 
-            // 화면 다시 그리기
+            // 화면 갱신
             renderTodos();
         });
 
@@ -69,15 +68,15 @@ function renderTodos() {
         // 삭제 버튼 클릭 이벤트
         deleteButton.addEventListener("click", function() {
 
-            // 해당 id를 제외한 할 일만 남기기
+            // 해당 ID의 할 일 제외
             todos = todos.filter(function(item) {
                 return item.id !== todo.id;
             });
 
-            // 삭제된 상태 저장
+            // 변경된 배열 저장
             saveTodos();
 
-            // 화면 다시 그리기
+            // 화면 갱신
             renderTodos();
         });
 
@@ -86,11 +85,11 @@ function renderTodos() {
         li.appendChild(span);
         li.appendChild(deleteButton);
 
-        // ul에 li 추가
+        // ul에 추가
         todoList.appendChild(li);
     });
 
-    // 남은 개수와 진행률 갱신
+    // 남은 할 일 개수와 게이지 갱신
     updateCount();
 }
 
@@ -102,25 +101,25 @@ function addTodo() {
     let input = document.getElementById("todoInput");
     let text = input.value.trim();
 
-    // 빈칸이면 종료
+    // 빈칸 방지
     if (text === "") {
         return;
     }
 
-    // 새로운 할 일 객체 생성
+    // 새로운 할 일 객체
     let todo = {
         id: nextId++,
         text: text,
         completed: false
     };
 
-    // 배열에 새로운 객체 추가
+    // 배열에 객체 추가
     todos.push(todo);
 
-    // localStorage에 저장
+    // localStorage 저장
     saveTodos();
 
-    // 화면 다시 그리기
+    // 화면 갱신
     renderTodos();
 
     // 입력창 비우기
@@ -131,7 +130,7 @@ function addTodo() {
 // 남은 할 일 개수와 완료율 계산
 function updateCount() {
 
-    // 전체 할 일 개수
+    // 전체 할 일
     let total = todos.length;
 
     // 완료된 할 일 개수
@@ -139,7 +138,7 @@ function updateCount() {
         return todo.completed;
     }).length;
 
-    // 남은 할 일 개수
+    // 남은 할 일 계산
     let remaining = total - completed;
 
     // 완료율 계산
@@ -150,7 +149,7 @@ function updateCount() {
     // 남은 할 일 표시
     document.getElementById("count").textContent = remaining;
 
-    // 완료율 텍스트 표시
+    // 완료율 표시
     document.getElementById("progressText").textContent = percent + "% 완료";
 
     // 진행률 게이지 변경
@@ -158,13 +157,13 @@ function updateCount() {
 }
 
 
-// 추가 버튼 클릭
+// 추가 버튼 클릭 이벤트
 document.getElementById("addBtn").addEventListener("click", function() {
     addTodo();
 });
 
 
-// Enter 키로 할 일 추가
+// Enter 키 이벤트
 document.getElementById("todoInput").addEventListener("keydown", function(event) {
     if (event.key === "Enter") {
         addTodo();
@@ -172,91 +171,28 @@ document.getElementById("todoInput").addEventListener("keydown", function(event)
 });
 
 
-// 페이지를 처음 열었을 때 저장된 할 일 표시
+// 페이지를 열면 저장된 할 일 표시
 renderTodos();
-
-// 남은 할 일과 완료율 계산
-function updateCount() {
-
-    // 모든 체크박스 찾기
-    let checkboxes = document.querySelectorAll(
-        '#todoList input[type="checkbox"]'
-    );
-
-    // 전체 할 일 개수
-    let total = checkboxes.length;
-
-    // 완료된 할 일 개수
-    let completed = 0;
-
-    // 체크된 항목 세기
-    checkboxes.forEach(function(checkbox) {
-        if (checkbox.checked) {
-            completed++;
-        }
-    });
-
-    // 남은 할 일 계산
-    let remaining = total - completed;
-
-    // 완료율 계산 (할 일이 0개면 0%)
-    let percent = total === 0 ? 0 : Math.round((completed / total) * 100);
-
-    // 남은 할 일 표시
-    document.getElementById("count").textContent = remaining;
-
-    // 완료율 표시
-    document.getElementById("progressText").textContent = percent + "% 완료";
-
-    // 게이지 너비 변경
-    document.getElementById("progressBar").style.width = percent + "%";
-}
-
-// 버튼 클릭
-document.getElementById("addBtn").addEventListener("click", function() {
-    addTodo();
-});
-
-
-// 엔터 키로도 추가
-document.getElementById("todoInput").addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-        addTodo();
-    }
-});
-
-let themeBtn = document.getElementById("themeBtn");
-
-themeBtn.addEventListener("click", function() {
-
-    document.body.classList.toggle("dark");
-
-    if (document.body.classList.contains("dark")) {
-        themeBtn.textContent = "☀️";
-    } else {
-        themeBtn.textContent = "🌙";
-    }
-
-});
-
 
 /* 문단 섹션 추가 */
 
-let sections = document.querySelectorAll(".content");
+document.querySelectorAll(".content").forEach(function(section) {
 
-sections.forEach(function(section) {
     let title = section.querySelector("h1");
 
     title.addEventListener("click", function() {
-        let children = section.children;
 
-        for (let i = 1; i < children.length; i++) {
-            if (children[i].style.display === "none") {
-                children[i].style.display = "";
-            } else {
-                children[i].style.display = "none";
+        // 접힘 상태 클래스 전환
+        section.classList.toggle("collapsed");
+
+        // 제목을 제외한 나머지 요소 숨기기
+        Array.from(section.children).forEach(function(child) {
+            if (child !== title) {
+                child.style.display =
+                    section.classList.contains("collapsed") ? "none" : "";
             }
-        }
+        });
+
     });
 });
 
@@ -283,16 +219,153 @@ function updateCommentMessage() {
 }
 
 
+
+
 /* =========================
-   댓글 기능
+   댓글 + localStorage
 ========================= */
+
+// 기존 댓글 데이터 불러오기
+let comments = JSON.parse(localStorage.getItem("comments")) || [];
+
+// 댓글 고유 ID 생성
+let nextCommentId = comments.reduce(function(maxId, comment) {
+    return Math.max(maxId, comment.id);
+}, 0) + 1;
+
+
+// 댓글 저장
+function saveComments() {
+    localStorage.setItem("comments", JSON.stringify(comments));
+}
+
+
+// 댓글 화면 출력
+function renderComments() {
+
+    // 댓글 목록 가져오기
+    let commentList = document.getElementById("commentList");
+
+    // 기존 목록 비우기
+    commentList.innerHTML = "";
+
+    // 댓글을 하나씩 출력
+    comments.forEach(function(comment) {
+
+        // 댓글 항목 생성
+        let li = document.createElement("li");
+
+        // 닉네임과 날짜를 감쌀 영역
+        let header = document.createElement("div");
+        header.classList.add("comment-header");
+
+        // 닉네임 생성
+        let nickname = document.createElement("span");
+        nickname.classList.add("comment-nickname");
+
+        // 기존 댓글에 닉네임이 없으면 익명 표시
+        nickname.textContent = comment.nickname || "익명";
+
+        // 작성 날짜 생성
+        let date = document.createElement("span");
+        date.classList.add("comment-date");
+        date.textContent = comment.date;
+
+        // 댓글 내용 생성
+        let text = document.createElement("span");
+        text.classList.add("comment-text");
+        text.textContent = comment.text;
+
+        // 삭제 버튼 생성
+        let deleteButton = document.createElement("button");
+        deleteButton.textContent = "×";
+        deleteButton.classList.add("comment-delete-btn");
+        deleteButton.setAttribute("aria-label", "댓글 삭제");
+
+        // 댓글 삭제 이벤트
+        deleteButton.addEventListener("click", function() {
+
+            // 해당 댓글 ID를 제외하고 배열 재생성
+            comments = comments.filter(function(item) {
+                return item.id !== comment.id;
+            });
+
+            // 변경된 댓글 저장
+            saveComments();
+
+            // 화면 갱신
+            renderComments();
+        });
+
+        // 닉네임과 날짜 추가
+        header.appendChild(nickname);
+        header.appendChild(date);
+
+        // 댓글 항목에 요소 추가
+        li.appendChild(header);
+        li.appendChild(text);
+        li.appendChild(deleteButton);
+
+        // 댓글 목록에 추가
+        commentList.appendChild(li);
+    });
+
+    // 댓글 개수 표시
+    document.getElementById("commentCount").textContent = comments.length;
+
+    // 댓글이 없을 때 안내 문구 표시
+    updateCommentMessage();
+}
+
+
+// 새로운 댓글 추가
+function addComment() {
+
+    // 입력값 가져오기
+    let nicknameInput = document.getElementById("nicknameInput");
+    let commentInput = document.getElementById("commentInput");
+
+    let nickname = nicknameInput.value.trim();
+    let text = commentInput.value.trim();
+
+    // 닉네임이 비어 있으면 익명 사용
+    if (nickname === "") {
+        nickname = "익명";
+    }
+
+    // 댓글 내용이 없으면 종료
+    if (text === "") {
+        return;
+    }
+
+    // 새로운 댓글 객체 생성
+    let comment = {
+        id: nextCommentId++,
+        nickname: nickname,
+        text: text,
+        date: new Date().toLocaleString("ko-KR")
+    };
+
+    // 댓글 배열에 추가
+    comments.push(comment);
+
+    // localStorage 저장
+    saveComments();
+
+    // 화면 다시 출력
+    renderComments();
+
+    // 댓글 입력창 비우기
+    commentInput.value = "";
+}
+
 
 // 댓글이 없을 때 안내 문구 표시
 function updateCommentMessage() {
-    let commentList = document.getElementById("commentList");
+
     let emptyMessage = document.getElementById("emptyMessage");
 
-    if (commentList.children.length === 0) {
+    if (comments.length === 0) {
         emptyMessage.style.display = "block";
     } else {
         emptyMessage.style.display = "none";
@@ -300,82 +373,101 @@ function updateCommentMessage() {
 }
 
 
-// 댓글 추가 함수
-function addComment() {
-
-    // 입력창과 입력값 가져오기
-    let input = document.getElementById("commentInput");
-    let text = input.value;
-
-    // 빈 댓글 방지
-    if (text.trim() === "") {
-        return;
-    }
-
-    // 댓글 항목 생성
-    let li = document.createElement("li");
-
-    // 댓글 내용과 작성 시간을 묶는 div
-    let commentContent = document.createElement("div");
-
-    // 댓글 내용 생성
-    let span = document.createElement("span");
-    span.textContent = text;
-
-    // 현재 시간 가져오기
-    let now = new Date();
-    let time = now.toLocaleString("ko-KR");
-
-    // 작성 시간 요소 생성
-    let timeSpan = document.createElement("span");
-    timeSpan.textContent = time;
-    timeSpan.classList.add("comment-time");
-
-    // 삭제 버튼 생성
-    let deleteButton = document.createElement("button");
-    deleteButton.textContent = "×";
-    deleteButton.classList.add("delete-btn");
-
-    // 삭제 버튼 클릭 이벤트
-    deleteButton.addEventListener("click", function() {
-        li.remove();
-        updateCommentMessage();
-    });
-
-    // 댓글 내용과 작성 시간 추가
-    commentContent.appendChild(span);
-    commentContent.appendChild(timeSpan);
-
-    // 댓글 항목 구성
-    li.appendChild(commentContent);
-    li.appendChild(deleteButton);
-
-    // 댓글 목록에 추가
-    document.getElementById("commentList").appendChild(li);
-
-    // 입력창 비우기
-    input.value = "";
-
-    // 안내 문구 갱신
-    updateCommentMessage();
-}
-
-
-// 등록 버튼 클릭 이벤트
+// 등록 버튼 클릭
 document.getElementById("commentBtn").addEventListener("click", function() {
     addComment();
 });
 
 
-// Enter 키 입력 이벤트
+// Ctrl + Enter로 댓글 등록
 document.getElementById("commentInput").addEventListener("keydown", function(event) {
-
-    // 눌린 키가 Enter인지 확인
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && (event.ctrlKey || event.metaKey)) {
+        event.preventDefault();
         addComment();
     }
 });
 
 
-// 페이지 최초 실행 시 댓글 상태 확인
-updateCommentMessage();
+// 저장된 댓글 표시
+renderComments();
+
+
+
+/* =========================
+   이미지 접기 / 펼치기
+========================= */
+
+// 이미지와 펼치기 버튼 가져오기
+let profileImage = document.getElementById("profileImage");
+let imageOpenBtn = document.getElementById("imageOpenBtn");
+
+// 두 요소가 모두 존재할 때만 이벤트 등록
+if (profileImage && imageOpenBtn) {
+
+    // 이미지를 클릭하면 접기
+    profileImage.addEventListener("click", function() {
+
+        profileImage.hidden = true;
+        imageOpenBtn.hidden = false;
+
+    });
+
+    // 아이콘을 클릭하면 펼치기
+    imageOpenBtn.addEventListener("click", function() {
+
+        profileImage.hidden = false;
+        imageOpenBtn.hidden = true;
+
+    });
+
+}
+
+
+
+/* =========================
+   플로팅 메뉴
+========================= */
+
+// 버튼 가져오기
+let topBtn = document.getElementById("topBtn");
+let bottomBtn = document.getElementById("bottomBtn");
+let themeBtn = document.getElementById("themeBtn");
+
+// 버튼이 모두 존재하는지 확인
+console.log("맨 위 버튼:", topBtn);
+console.log("맨 아래 버튼:", bottomBtn);
+console.log("다크모드 버튼:", themeBtn);
+
+// 버튼이 모두 존재할 때 이벤트 등록
+if (topBtn && bottomBtn && themeBtn) {
+
+    // 맨 위로 이동
+    topBtn.addEventListener("click", function() {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    });
+
+    // 맨 아래로 이동
+    bottomBtn.addEventListener("click", function() {
+        window.scrollTo({
+            top: document.documentElement.scrollHeight,
+            behavior: "smooth"
+        });
+    });
+
+    // 다크모드 전환
+    themeBtn.addEventListener("click", function() {
+
+        document.body.classList.toggle("dark");
+
+        if (document.body.classList.contains("dark")) {
+            themeBtn.textContent = "☀️";
+        } else {
+            themeBtn.textContent = "🌙";
+        }
+
+    });
+
+}
