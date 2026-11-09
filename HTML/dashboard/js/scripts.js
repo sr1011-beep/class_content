@@ -12,6 +12,9 @@
    'todos'는 데이터를 꺼낼 때 사용하는 키(이름)입니다. 기존 키를 그대로 써서 예전 할 일이 보입니다.
    status의 가능한 값은 todo(할 일), progress(진행 중), done(완료) 세 가지입니다.
 */
+// i18n.js의 번역 함수를 쓰는 헬퍼입니다. 키가 없으면 원래 글자를 그대로 보여줍니다.
+const tr = (text) => window.SR_I18N ? window.SR_I18N.t(text) : text;
+const currentLang = () => window.SR_I18N ? window.SR_I18N.getLanguage() : 'ko';
 const TODO_STORAGE_KEY = 'todos'; // 기존 저장 키 유지: 예전 할 일이 사라지지 않게 함
 const VALID_STATUSES = ['todo', 'progress', 'done'];
 const STATUS_TEXT = { todo: '할 일', progress: '진행 중', done: '완료' };
@@ -80,7 +83,7 @@ function saveTodos() {
         localStorage.setItem(TODO_STORAGE_KEY, JSON.stringify(todos));
     } catch (error) {
         console.error('할 일 저장 실패:', error);
-        alert('브라우저 저장 공간에 접근할 수 없습니다. 저장 설정을 확인해 주세요.');
+        alert(tr('브라우저 저장 공간에 접근할 수 없습니다. 저장 설정을 확인해 주세요.'));
     }
 }
 
@@ -113,11 +116,11 @@ function createTaskCard(todo) {
     head.className = 'task-card-head';
     const label = document.createElement('span');
     label.className = 'task-label';
-    label.textContent = 'PERSONAL TASK';
+    label.textContent = tr('PERSONAL TASK');
     const dragHint = document.createElement('span');
     dragHint.className = 'task-drag-hint';
     dragHint.textContent = '⠿';
-    dragHint.title = '다른 열로 끌어 놓으면 상태를 변경할 수 있어요';
+    dragHint.title = tr('다른 열로 끌어 놓으면 상태를 변경할 수 있어요');
     head.append(label, dragHint);
 
     const main = document.createElement('div');
@@ -126,7 +129,7 @@ function createTaskCard(todo) {
     const checkbox = document.createElement('input');
     checkbox.type = 'checkbox';
     checkbox.checked = todo.status === 'done';
-    checkbox.setAttribute('aria-label', todo.text + ' 완료 여부');
+    checkbox.setAttribute('aria-label', todo.text + tr(' 완료 여부'));
     checkbox.addEventListener('change', function() {
         changeTodoStatus(todo, checkbox.checked ? 'done' : 'todo');
     });
@@ -142,9 +145,9 @@ function createTaskCard(todo) {
     const progressCaption = document.createElement('div');
     progressCaption.className = 'task-progress-caption';
     const progressLabel = document.createElement('span');
-    progressLabel.textContent = STATUS_TEXT[todo.status];
+    progressLabel.textContent = tr(STATUS_TEXT[todo.status]);
     const progressValue = document.createElement('strong');
-    progressValue.textContent = STATUS_PERCENT[todo.status] + '% completed';
+    progressValue.textContent = STATUS_PERCENT[todo.status] + tr('% completed');
     progressCaption.append(progressLabel, progressValue);
     const track = document.createElement('div');
     track.className = 'task-mini-track';
@@ -159,11 +162,11 @@ function createTaskCard(todo) {
     // select는 상태를 직접 고르는 드롭다운 메뉴입니다.
     const select = document.createElement('select');
     select.className = 'task-status-select';
-    select.setAttribute('aria-label', todo.text + ' 상태 변경');
+    select.setAttribute('aria-label', todo.text + tr(' 상태 변경'));
     VALID_STATUSES.forEach(function(status) {
         const option = document.createElement('option');
         option.value = status;
-        option.textContent = STATUS_TEXT[status];
+        option.textContent = tr(STATUS_TEXT[status]);
         select.appendChild(option);
     });
     select.value = todo.status;
@@ -175,7 +178,7 @@ function createTaskCard(todo) {
     deleteButton.type = 'button';
     deleteButton.textContent = '×';
     deleteButton.className = 'delete-btn';
-    deleteButton.setAttribute('aria-label', todo.text + ' 삭제');
+    deleteButton.setAttribute('aria-label', todo.text + tr(' 삭제'));
     deleteButton.addEventListener('click', function() {
         todos = todos.filter(function(item) { return item.id !== todo.id; });
         saveTodos();
@@ -219,7 +222,7 @@ function updateCount() {
     const percent = total === 0 ? 0 : Math.round(done / total * 100);
 
     document.getElementById('count').textContent = remaining;
-    document.getElementById('progressText').textContent = percent + '% 완료';
+    document.getElementById('progressText').textContent = percent + tr('% 완료');
     document.getElementById('progressBar').style.width = percent + '%';
     document.getElementById('totalTasks').textContent = total;
     document.getElementById('inProgressCount').textContent = progress;
@@ -261,7 +264,7 @@ function renderTodos() {
         icon.className = 'empty-column-symbol';
         icon.textContent = keyword ? '⌕' : (status === 'done' ? '✓' : '+');
         const message = document.createElement('span');
-        message.textContent = keyword ? '검색 결과가 없습니다' : (status === 'done' ? '완료한 작업이 이곳에 표시돼요' : '여기에 작업을 추가해 보세요');
+        message.textContent = keyword ? tr('검색 결과가 없습니다') : (status === 'done' ? tr('완료한 작업이 이곳에 표시돼요') : tr('여기에 작업을 추가해 보세요'));
         empty.append(icon, message);
         columns[status].appendChild(empty);
     });
@@ -362,7 +365,7 @@ imageOpenBtn.addEventListener('click', function() {
 });
 imageFallback.addEventListener('click', hideProfileImage);
 imageFallback.style.cursor = 'pointer';
-imageFallback.title = '클릭하면 프로필 접기';
+imageFallback.title = tr('클릭하면 프로필 접기');
 
 // 기존에 사용하던 문단 접기 기능도 유지합니다.
 /*
@@ -377,7 +380,7 @@ document.querySelectorAll('.content.panel').forEach(function(section) {
     heading.tabIndex = 0;
     heading.setAttribute('role', 'button');
     heading.setAttribute('aria-expanded', 'true');
-    heading.title = '클릭하면 카드 내용을 접거나 펼칩니다';
+    heading.title = tr('클릭하면 카드 내용을 접거나 펼칩니다');
     function toggleSection() {
         const isCollapsed = section.classList.toggle('collapsed');
         heading.setAttribute('aria-expanded', String(!isCollapsed));
@@ -404,8 +407,8 @@ const themeBtn = document.getElementById('themeBtn');
 function setTheme(isDark) {
     document.body.classList.toggle('dark', isDark);
     themeBtn.querySelector('use').setAttribute('href', isDark ? '#i-sun' : '#i-moon');
-    themeBtn.setAttribute('aria-label', isDark ? '라이트모드로 전환' : '다크모드로 전환');
-    themeBtn.title = isDark ? '라이트모드로 전환' : '다크모드로 전환';
+    themeBtn.setAttribute('aria-label', isDark ? tr('라이트모드로 전환') : tr('다크모드로 전환'));
+    themeBtn.title = isDark ? tr('라이트모드로 전환') : tr('다크모드로 전환');
     try { localStorage.setItem('sr-studio-theme', isDark ? 'dark' : 'light'); } catch (error) { /* 비공개 브라우징 대응 */ }
 }
 let storedTheme = null;
@@ -452,7 +455,22 @@ updateNavActive();
 // 날짜는 사용자의 브라우저 시간으로 표시
 /* 15) 현재 날짜와 연도를 사용자 브라우저 시간으로 표시합니다. */
 const now = new Date();
-document.getElementById('currentDate').textContent = new Intl.DateTimeFormat('ko-KR', { month: 'short', day: 'numeric', weekday: 'short' }).format(now);
+function renderCurrentDate() {
+    const locale = {ko:'ko-KR', ja:'ja-JP', en:'en-US'}[currentLang()];
+    document.getElementById('currentDate').textContent = new Intl.DateTimeFormat(locale, { month:'short', day:'numeric', weekday:'short' }).format(new Date());
+}
+renderCurrentDate();
+
+// 사용자가 언어를 바꾸면 화면에서 JavaScript가 만든 카드/통계/날짜도 즉시 다시 그립니다.
+document.addEventListener('sr-language-change', function() {
+    renderTodos();
+    renderCurrentDate();
+    imageFallback.title = tr('클릭하면 프로필 접기');
+    document.querySelectorAll('.content.panel .panel-heading h2').forEach(function(heading) {
+        heading.title = tr('클릭하면 카드 내용을 접거나 펼칩니다');
+    });
+    setTheme(document.body.classList.contains('dark'));
+});
 document.getElementById('year').textContent = String(now.getFullYear());
 
 renderTodos();

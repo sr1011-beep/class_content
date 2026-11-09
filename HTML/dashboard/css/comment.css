@@ -130,7 +130,7 @@
     display: flex;
     align-items: flex-start;
     gap: 12px;
-    padding: 17px 35px 17px 2px;
+    padding: 17px 2px;
     border-bottom: 1px solid var(--border);
 }
 
@@ -180,28 +180,57 @@
     overflow-wrap: anywhere;
 }
 
-/* 작성자 본인에게만 JS가 보여주는 삭제 버튼 */
+/* 일반 방문자는 본인 댓글, 관리자 로그인 시에는 모든 댓글에 [삭제] 버튼 표시 */
 .comment-delete-btn {
-    position: absolute;
-    right: 4px;
-    top: 17px;
-    border: 0;
+    /* li 오른쪽에 정렬하고, 댓글 본문 너비는 자연스럽게 줄어듭니다. */
+    position: static;
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-left: auto;
+    padding: 6px 9px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
     color: var(--text-muted);
-    background: transparent;
-    border-radius: 6px;
-    font-size: 19px;
-    width: 28px;
-    height: 28px;
-    display: grid;
-    place-items: center;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease;
 }
+
+/* 버튼 안의 휴지통 아이콘 크기 */
+.comment-delete-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+/* 마우스를 올리면 위험한 동작임을 알려주는 붉은색 효과 */
 .comment-delete-btn:hover {
     color: #dc5757;
+    border-color: #edb8b8;
     background: #fff0f0;
 }
 body.dark .comment-delete-btn:hover {
     background: #48292e;
+    border-color: #70464b;
     color: #ff9090;
+}
+
+/* 삭제 요청 중에는 버튼을 다시 누르지 못하도록 흐리게 표시 */
+.comment-delete-btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+/* 다른 브라우저에서 작성한 댓글은 익명 ID가 달라 삭제할 수 있음을 안내 */
+.comment-delete-hint {
+    margin: 10px 0 0;
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.6;
 }
 
 /* 반응형: 화면 너비가 (max-width: 490px) 조건을 만족하면 아래 스타일로 덮어씁니다. */
@@ -217,5 +246,188 @@ body.dark .comment-delete-btn:hover {
     }
     #nicknameInput {
         max-width: 100%;
+    }
+}
+
+
+/* =========================
+   관리자 로그인 UI
+   관리자 버튼은 다른 방문자에게도 보이지만,
+   삭제 권한은 Firebase 규칙에서 검사합니다.
+========================= */
+.admin-comments-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+.admin-auth-actions {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.admin-auth-btn {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 10px;
+    background: var(--surface);
+    color: var(--text-secondary);
+    cursor: pointer;
+    font: inherit;
+    font-size: 11px;
+}
+.admin-auth-btn:hover { background: var(--surface-hover); }
+.admin-status {
+    color: #13856a;
+    font-weight: 700;
+    font-size: 11px;
+}
+.admin-auth-actions [hidden] { display: none !important; }
+
+/* <dialog>는 사용자가 로그인 버튼을 누를 때만 열립니다. */
+.admin-dialog {
+    width: min(420px, calc(100% - 30px));
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    background: var(--surface);
+    color: var(--text);
+    box-shadow: 0 24px 75px rgba(0,0,0,.24);
+}
+.admin-dialog::backdrop { background: rgba(12,19,30,.52); }
+.admin-dialog-header { display: flex; justify-content: space-between; gap: 12px; }
+.admin-dialog-header h2 { font-size: 20px; margin: 6px 0 0; }
+.admin-dialog-close {
+    border: 0;
+    border-radius: 8px;
+    padding: 2px 8px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 24px;
+    cursor: pointer;
+}
+.admin-dialog-description {
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin: 16px 0;
+}
+.admin-login-form { display: grid; gap: 9px; }
+.admin-login-form label { font-size: 12px; font-weight: 700; }
+.admin-login-form input {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    border: 1px solid var(--border-strong);
+    border-radius: 8px;
+    padding: 11px 12px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 13px;
+}
+.admin-login-form input:focus { outline: 1px solid var(--focus); }
+.admin-submit-btn {
+    margin-top: 10px;
+    background: var(--button);
+    color: var(--button-text);
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font: inherit;
+    font-weight: 700;
+    cursor: pointer;
+}
+.admin-submit-btn:disabled { opacity: .6; cursor: wait; }
+.admin-error { font-size: 12px; color: #d54c54; line-height: 1.5; }
+.admin-error[hidden] { display: none; }
+
+
+/* =====================================================
+   관리자 / 메시지 목록 상단 디자인 보완
+   기존 HTML은 바꾸지 않고 이 부분만 보기 좋게 정렬합니다.
+   ===================================================== */
+.comments-heading.admin-comments-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 14px 0 0;
+    padding: 15px 16px;
+    background: var(--surface-soft, #fbfbfc);
+    border: 1px solid var(--border, #e5e7eb);
+    border-radius: 12px;
+}
+
+/* Messages / from visitors 문구를 2줄로 나눔 */
+.admin-comments-heading > div:first-child {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.admin-comments-heading > div:first-child > span:first-child {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+    color: var(--text, #21242b);
+}
+.admin-comments-heading > div:first-child > span:last-child {
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.3;
+    color: var(--text-muted, #8c939d);
+}
+
+.admin-comments-heading .admin-auth-actions {
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.admin-comments-heading .admin-auth-btn {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 8px 13px;
+    border: 1px solid var(--border-strong, #d7dce2);
+    border-radius: 9px;
+    background: var(--surface, #fff);
+    color: var(--text, #21242b);
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    transition: background .2s, border-color .2s, transform .2s;
+}
+.admin-comments-heading .admin-auth-btn:hover {
+    background: var(--surface-hover, #f3f4f6);
+    border-color: var(--text-muted, #9298a2);
+    transform: translateY(-1px);
+}
+.admin-comments-heading .admin-auth-btn:focus-visible {
+    outline: 2px solid var(--focus, #7e9aff);
+    outline-offset: 2px;
+}
+.admin-comments-heading .admin-status {
+    font-size: 11px;
+    font-weight: 700;
+    color: #15816d;
+}
+.comment-delete-hint {
+    margin: 9px 0 6px;
+    color: var(--text-muted, #9298a2);
+    font-size: 11px;
+    line-height: 1.5;
+}
+@media (max-width: 480px) {
+    .comments-heading.admin-comments-heading {
+        align-items: flex-start;
+        padding: 13px;
     }
 }

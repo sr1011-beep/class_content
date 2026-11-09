@@ -1138,3 +1138,59 @@ body.dark .project-visual {
 @media (max-width: 380px) {
     .about-featured .profile-layout { flex-direction: column; align-items: start; }
 }
+
+
+/* ============================================================
+   언어 선택기 (한국어 / 日本語 / English)
+   상단 검색창 옆의 드롭다운. 모바일에서도 보이도록 너비를 조절합니다.
+   ============================================================ */
+.language-picker {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--text-secondary);
+    font-size: 11px;
+    white-space: nowrap;
+}
+.language-caption {
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .06em;
+}
+.language-picker select {
+    min-width: 95px;
+    height: 37px;
+    padding: 0 28px 0 11px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.language-picker select:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+}
+/* 작은 창에서는 '언어' 라벨은 숨기고 선택 상자만 표시 */
+@media (max-width: 1250px) {
+    .language-caption { display: none; }
+    .topbar-actions { gap: 10px; }
+}
+@media (max-width: 580px) {
+    .topbar-actions { gap: 7px; }
+    .language-picker select { min-width: 82px; max-width: 89px; padding: 0 6px; }
+    .search-field { width: clamp(75px, 20vw, 105px); padding: 0 8px; }
+    .topbar-greeting { gap: 6px; }
+    .topbar-greeting .eyebrow { display: none; }
+    .topbar-greeting strong { font-size: 11px; }
+}
+@media (max-width: 380px) {
+    .topbar { padding: 0 10px; gap: 5px; }
+    .topbar-actions { gap: 5px; }
+    .language-picker select { min-width: 75px; max-width: 78px; font-size: 11px; padding: 0 2px; }
+    .search-field { width: 70px; }
+}
