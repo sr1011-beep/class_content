@@ -1,0 +1,1140 @@
+/*
+  style.css = 사이트 전체 외관을 담당합니다. .이름은 class, #이름은 id를 뜻합니다.
+  CSS 변수 var(--surface)는 :root 또는 body.dark에 적힌 색을 가져옵니다.
+  display:flex는 한 줄 정렬, display:grid는 표처럼 행/열 배치입니다.
+*/
+
+/* CSS 색상 변수: --page, --surface 등을 바꾸면 여러 요소의 색상이 함께 바뀜 */
+:root {
+    color-scheme: light;
+    --page: #f0f1f3;
+    --surface: #ffffff;
+    --sidebar: #f8f9fa;
+    --surface-soft: #fbfbfc;
+    --surface-hover: #f3f4f6;
+    --text: #191b1f;
+    --text-secondary: #555b65;
+    --text-muted: #9298a2;
+    --border: #e8eaed;
+    --border-strong: #dfe2e6;
+    --button: #1c1d20;
+    --button-text: #ffffff;
+    --shadow: 0 20px 70px rgba(28, 32, 38, .065);
+    --focus: #7188a7;
+}
+
+/* 기본 설정: box-sizing을 border-box로 맞춰 너비 계산을 쉽게 함 */
+* {
+    box-sizing: border-box;
+}
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 32px;
+}
+body {
+    margin: 0;
+    background: var(--page);
+    color: var(--text);
+    font-family: "DM Sans", "Noto Sans KR", sans-serif;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+    transition: background .22s ease, color .22s ease;
+}
+a {
+    color: inherit;
+    text-decoration: none;
+}
+button, input, select, textarea {
+    font: inherit;
+}
+button {
+    cursor: pointer;
+}
+button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, .skill:focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 3px;
+}
+svg.icon {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    fill: none;
+    flex: none;
+}
+.svg-defs {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+[hidden] {
+    display: none !important;
+}
+
+/* 전체 대시보드 프레임: 최대 폭, 흰 배경, 둥근 모서리, 좌우 flex 배치 */
+.app-shell {
+    max-width: 1480px;
+    width: calc(100% - 64px);
+    min-height: calc(100vh - 64px);
+    margin: 32px auto;
+    border: 1px solid var(--border);
+    border-radius: 23px;
+    background: var(--surface);
+    display: flex;
+    overflow: clip;
+    box-shadow: var(--shadow);
+}
+
+/* 왼쪽 메뉴 전체 디자인 */
+.sidebar {
+    width: 232px;
+    min-width: 232px;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    padding: 26px 15px 24px;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - 66px);
+}
+
+/* 왼쪽 위 SR Studio 로고 */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 1px 10px 40px;
+    font-weight: 700;
+    letter-spacing: -.05em;
+}
+.brand-mark {
+    background: #1d1e20;
+    color: #fff;
+    width: 37px;
+    height: 37px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: -.065em;
+}
+.brand-dot {
+    color: #a7bac9;
+}
+.brand-name {
+    font-size: 17px;
+}
+
+/* 사이드바의 WORKSPACE 같은 작은 제목 */
+.sidebar-label {
+    padding: 0 14px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    color: var(--text-muted);
+}
+
+/* 사이드바 메뉴 링크들의 묶음 */
+.side-nav {
+    display: grid;
+    gap: 4px;
+}
+
+/* 사이드바 메뉴 한 줄: hover는 마우스 올림, active는 현재 선택 표시 */
+.side-link {
+    display: flex;
+    align-items: center;
+    min-height: 43px;
+    gap: 13px;
+    padding: 0 13px;
+    border-radius: 9px;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 12px;
+    transition: background .15s, color .15s;
+}
+.side-link .icon {
+    width: 17px;
+    height: 17px;
+}
+.side-link:hover {
+    background: var(--surface-hover);
+    color: var(--text);
+}
+.side-link.active {
+    background: var(--surface);
+    color: var(--text);
+    font-weight: 700;
+    box-shadow: 0 1px 5px rgba(0,0,0,.025);
+}
+.nav-emoji {
+    display: grid;
+    place-items: center;
+    width: 17px;
+    height: 17px;
+    font-size: 17px;
+    color: var(--text-secondary);
+}
+.favorite-heading {
+    padding-top: 38px;
+}
+
+/* 사이드바 하단의 사용자 정보 */
+.sidebar-bottom {
+    margin-top: auto;
+    padding-top: 48px;
+}
+.sidebar-user {
+    display: flex;
+    align-items: center;
+    padding: 13px 9px 16px;
+    gap: 10px;
+    border-top: 1px solid var(--border);
+}
+.mini-avatar {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #dbe4ed;
+    color: #405469;
+    display: grid;
+    place-items: center;
+    font-size: 10px;
+    font-weight: 800;
+}
+.sidebar-user > div:nth-child(2) {
+    min-width: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.sidebar-user strong {
+    font-size: 12px;
+}
+.sidebar-user span {
+    font-size: 10px;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+.sidebar-user .online-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #37b476;
+}
+.sidebar-footnote {
+    color: var(--text-muted);
+    font-size: 10px;
+    padding: 4px 11px;
+}
+.sidebar-footnote span {
+    color: #829aab;
+}
+.sidebar-scrim {
+    display: none;
+}
+
+/* 사이드바 오른쪽 작업 영역 */
+.workspace {
+    flex: 1;
+    min-width: 0;
+    background: var(--surface);
+}
+
+/* 페이지 위쪽 가로 헤더 */
+.topbar {
+    height: 79px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 36px;
+    gap: 24px;
+}
+.topbar-greeting {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+.topbar-greeting > div {
+    display: grid;
+    gap: 4px;
+}
+.topbar-greeting .eyebrow {
+    color: var(--text-muted);
+    font-size: 10px;
+}
+.topbar-greeting strong {
+    font-size: 13px;
+}
+.topbar-actions {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+}
+
+/* 헤더의 할 일 검색 입력창 */
+.search-field {
+    width: 235px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--text-muted);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--surface);
+    padding: 0 12px;
+}
+.search-field .icon {
+    width: 16px;
+    height: 16px;
+}
+.search-field input {
+    background: none;
+    border: 0;
+    color: var(--text);
+    outline: none;
+    flex: 1;
+    min-width: 0;
+    font-size: 12px;
+}
+.search-field:focus-within {
+    border-color: var(--focus);
+}
+.search-field input::placeholder {
+    color: var(--text-muted);
+}
+.topbar-date {
+    color: var(--text-secondary);
+    font-size: 11px;
+    white-space: nowrap;
+}
+.header-avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: #d3dfd9;
+    color: #365148;
+    display: grid;
+    place-items: center;
+    font-size: 10px;
+    font-weight: 700;
+    border: 3px solid var(--surface);
+    box-shadow: 0 0 0 1px var(--border);
+}
+.mobile-menu-btn {
+    display: none !important;
+}
+
+/* 메인 영역의 좌우 여백 */
+.main-content {
+    padding: 35px 34px 18px;
+}
+
+/* Studio Space 제목 부분 */
+.overview-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+}
+.overline, .section-kicker {
+    color: var(--text-muted);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: .12em;
+}
+.overline-sparkle {
+    color: #e4a566;
+    margin-left: 3px;
+    font-size: 13px;
+}
+h1, h2, h3, p {
+    margin-top: 0;
+}
+.overview-header h1 {
+    margin: 7px 0 5px;
+    font-size: clamp(25px, 3vw, 32px);
+    font-weight: 700;
+    letter-spacing: -.055em;
+}
+.heading-dot {
+    color: #8fa3b6;
+}
+.overview-header p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--text-muted);
+}
+.outlined-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border-strong);
+    padding: 11px 13px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    transition: background .15s;
+}
+.outlined-button:hover {
+    background: var(--surface-hover);
+}
+.outlined-button .icon {
+    width: 14px;
+    height: 14px;
+}
+
+/* Overview, Task Board, Guestbook 탭 */
+.section-tabs {
+    margin-top: 28px;
+    display: flex;
+    gap: 27px;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+}
+.tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    padding: 0 1px 15px;
+    margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
+    color: var(--text-secondary);
+}
+.tab.active {
+    color: var(--text);
+    font-weight: 700;
+    border-color: var(--text);
+}
+.tab .icon {
+    width: 15px;
+    height: 15px;
+}
+
+/* 전체 / 진행 중 / 완료 통계를 3열로 배치 */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 13px;
+    margin: 23px 0 35px;
+}
+
+/* 각 통계 숫자가 들어 있는 카드 */
+.stat-card {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    padding: 16px 18px;
+    border-radius: 12px;
+}
+.stat-card > span {
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+.stat-card > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 9px 0 1px;
+}
+.stat-card strong {
+    font-size: 27px;
+    line-height: 1.3;
+    font-weight: 700;
+    letter-spacing: -.05em;
+}
+.stat-card small {
+    font-size: 10px;
+    color: var(--text-muted);
+}
+.stat-icon {
+    width: 30px;
+    height: 30px;
+    background: #eef2fa;
+    color: #6686b7;
+    display: grid;
+    place-items: center;
+    border-radius: 9px;
+}
+.stat-icon-yellow {
+    background: #fff5da;
+    color: #d8a033;
+}
+.stat-icon-green {
+    background: #e1f9eb;
+    color: #24a861;
+}
+.stat-icon .icon {
+    width: 15px;
+    height: 15px;
+}
+
+/* My Task Board 같은 섹션 제목과 오른쪽 설명 */
+.section-heading-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+.section-heading-row h2 {
+    font-size: 21px;
+    margin: 6px 0 4px;
+    letter-spacing: -.045em;
+}
+.section-heading-row p, .panel-intro {
+    margin: 0;
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.8;
+}
+.board-summary {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text-secondary);
+    font-weight: 600;
+    font-size: 11px;
+    white-space: nowrap;
+}
+.board-summary .icon {
+    width: 15px;
+    height: 15px;
+}
+
+/* 아래쪽 Projects & Skills 제목과 간격 */
+.lower-heading {
+    margin-top: 44px;
+}
+
+/* 프로젝트, Tech Stack, Connect 카드를 배치하는 2열 격자 */
+.info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* About Me, Project, Tech Stack, 댓글에 공통 사용하는 흰색 카드 */
+.panel {
+    min-width: 0;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 21px;
+}
+
+/* 각 카드의 제목과 작은 보조 문구 */
+.panel-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.panel-heading h2 {
+    margin: 0;
+    font-size: 15px;
+    letter-spacing: -.025em;
+}
+.panel-subtitle {
+    font-size: 9px;
+    font-weight: 700;
+    color: var(--text-muted);
+    letter-spacing: .09em;
+    white-space: nowrap;
+}
+
+/* About Me 내부: 왼쪽 사진 / 오른쪽 소개글 */
+.profile-layout {
+    display: flex;
+    align-items: start;
+    gap: 19px;
+}
+
+/* 프로필 사진이 들어 있는 네모 영역 */
+.image-section {
+    width: 123px;
+    height: 140px;
+    flex: none;
+    border-radius: 11px;
+    background: #eff1f4;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+}
+
+/* 실제 프로필 사진의 크기와 잘림 방식 */
+#profileImage {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+}
+.image-fallback {
+    font-size: 35px;
+    font-weight: 800;
+    letter-spacing: -.08em;
+    color: #7e8d9f;
+}
+.image-fallback span {
+    color: #abc0d1;
+}
+#imageOpenBtn {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #667788;
+    background: #e7eef3;
+}
+
+/* 프로필 소개 텍스트 전체 */
+.profile-text {
+    min-width: 0;
+}
+.small-tag {
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 600;
+    letter-spacing: .04em;
+}
+.profile-text h3 {
+    font-size: 23px;
+    margin: 7px 0 5px;
+    letter-spacing: -.055em;
+}
+.profile-text h3 span {
+    font-size: 17px;
+}
+.profile-school {
+    font-weight: 600;
+    color: var(--text-secondary) !important;
+}
+.profile-text p {
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.8;
+    margin-bottom: 8px;
+}
+.profile-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 14px;
+}
+.profile-chips span {
+    font-size: 10px;
+    padding: 6px 9px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-secondary);
+}
+
+/* 프로젝트 카드 상단의 짙은 색 배너 */
+.project-visual {
+    border-radius: 11px;
+    padding: 14px 15px;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(115deg, #202d3a, #4b6172);
+    color: white;
+    margin-bottom: 16px;
+}
+.project-visual .icon {
+    width: 30px;
+    height: 30px;
+    opacity: .9;
+}
+.project-visual div {
+    display: grid;
+    gap: 4px;
+}
+.project-visual div span {
+    font-size: 9px;
+    letter-spacing: .13em;
+    opacity: .65;
+}
+.project-visual strong {
+    font-size: 15px;
+    letter-spacing: -.035em;
+}
+.project-visual-mark {
+    position: absolute;
+    right: 20px;
+    bottom: -26px;
+    font-size: 100px;
+    font-weight: 800;
+    letter-spacing: -.1em;
+    opacity: .1;
+}
+.project-panel h3 {
+    font-size: 12px;
+    margin-bottom: 7px;
+}
+.project-panel p {
+    color: var(--text-muted);
+    font-size: 11px;
+    line-height: 1.8;
+    margin-bottom: 13px;
+}
+.project-points {
+    margin: 0;
+    padding-left: 17px;
+    display: grid;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-secondary);
+}
+
+/* HTML/CSS/Java 기술 카드들을 가로로 배치 */
+.skills {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 21px;
+}
+
+/* 기술 카드 하나; hover 시 툴팁이 표시됨 */
+.skill {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    min-width: 80px;
+    flex: 1;
+    padding: 15px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    cursor: help;
+    transition: background .18s, border-color .18s;
+}
+.skill:hover, .skill:focus-visible {
+    background: var(--surface-hover);
+    border-color: var(--border-strong);
+}
+.skill-symbol {
+    font-size: 17px;
+    letter-spacing: -.06em;
+    font-weight: 700;
+}
+.skill strong {
+    font-size: 11px;
+}
+
+/* 기술 카드에 마우스를 올렸을 때 뜨는 도움말 */
+.tooltip {
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translate(-50%, 5px);
+    width: 170px;
+    padding: 12px;
+    border-radius: 9px;
+    background: var(--text);
+    color: var(--surface);
+    box-shadow: 0 5px 25px rgba(0,0,0,.12);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.6;
+    text-align: center;
+    z-index: 8;
+    transition: all .16s;
+}
+.skill:hover .tooltip, .skill:focus-visible .tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%,0);
+}
+
+/* GitHub로 연결되는 긴 링크 카드 */
+.contact-link {
+    display: flex;
+    align-items: center;
+    padding: 13px;
+    margin-top: 23px;
+    gap: 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: background .15s;
+}
+.contact-link:hover {
+    background: var(--surface-hover);
+}
+.contact-link-icon {
+    display: grid;
+    place-items: center;
+    width: 37px;
+    height: 37px;
+    background: var(--surface-hover);
+    border-radius: 9px;
+}
+.contact-link > span:nth-child(2) {
+    display: grid;
+    gap: 4px;
+    flex: 1;
+    min-width: 0;
+}
+.contact-link strong {
+    font-size: 12px;
+}
+.contact-link small {
+    font-size: 10px;
+    color: var(--text-muted);
+    overflow-wrap: anywhere;
+}
+.contact-link .external-icon {
+    width: 15px;
+    height: 15px;
+}
+
+/* 방명록 카드의 간격과 안쪽 여백 */
+.guestbook-panel {
+    margin-top: 17px;
+    padding: 24px;
+}
+.guestbook-panel .section-kicker {
+    display: inline-block;
+    margin-bottom: 7px;
+}
+
+/* 페이지 맨 아래 저작권 문구 */
+.site-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 28px 0 8px;
+    color: var(--text-muted);
+    font-size: 10px;
+}
+
+/* 스크롤해도 화면 오른쪽에 떠 있는 버튼 모음 */
+.floating-menu {
+    position: fixed;
+    z-index: 50;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 7px;
+    display: grid;
+    gap: 4px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    box-shadow: 0 5px 23px rgba(0,0,0,.07);
+    border-radius: 12px;
+}
+.floating-menu button, .icon-button {
+    display: grid;
+    place-items: center;
+    width: 35px;
+    height: 35px;
+    color: var(--text-secondary);
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+}
+.floating-menu button:hover, .icon-button:hover {
+    background: var(--surface-hover);
+}
+.floating-menu .icon {
+    width: 17px;
+    height: 17px;
+}
+.floating-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 3px 5px;
+}
+
+/* 다크모드용 색상 변수: JS가 body에 dark 클래스를 추가하면 적용됨 */
+body.dark {
+    color-scheme: dark;
+    --page: #121416;
+    --surface: #1e2023;
+    --sidebar: #191b1e;
+    --surface-soft: #25272a;
+    --surface-hover: #2c2f33;
+    --text: #f0f2f3;
+    --text-secondary: #bdc1c8;
+    --text-muted: #858c97;
+    --border: #34373c;
+    --border-strong: #43474d;
+    --button: #f3f4f6;
+    --button-text: #191b1e;
+    --shadow: 0 15px 60px rgba(0,0,0,.22);
+    --focus: #b0c6e1;
+}
+body.dark .brand-mark {
+    background: #edf0f4;
+    color: #232529;
+}
+body.dark .stat-icon {
+    background: #28364d;
+    color: #bed3f0;
+}
+body.dark .stat-icon-yellow {
+    background: #433824;
+    color: #e4c171;
+}
+body.dark .stat-icon-green {
+    background: #244035;
+    color: #8cdfaa;
+}
+body.dark .mini-avatar, body.dark .header-avatar {
+    background: #34494e;
+    color: #c6e4e8;
+}
+body.dark .image-section {
+    background: #30343a;
+}
+body.dark #imageOpenBtn {
+    background: #303943;
+    color: #c9d4dc;
+}
+body.dark .project-visual {
+    background: linear-gradient(115deg,#26374a,#45586c);
+}
+
+/* 반응형: 화면 너비가 (max-width: 1150px) 조건을 만족하면 아래 스타일로 덮어씁니다. */
+@media (max-width: 1150px) {
+    .app-shell {
+        width: calc(100% - 32px);
+        margin: 16px auto;
+    }
+    .sidebar {
+        width: 200px;
+        min-width: 200px;
+    }
+    .main-content {
+        padding: 28px 24px 18px;
+    }
+    .topbar {
+        padding: 0 24px;
+    }
+    .topbar-date {
+        display: none;
+    }
+    .profile-layout {
+        flex-direction: column;
+    }
+    .image-section {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+/* 반응형: 화면 너비가 (max-width: 800px) 조건을 만족하면 아래 스타일로 덮어씁니다. */
+@media (max-width: 800px) {
+    .app-shell {
+        width: 100%;
+        margin: 0;
+        border: 0;
+        border-radius: 0;
+    }
+    .sidebar {
+        position: fixed;
+        z-index: 101;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 240px;
+        min-width: 240px;
+        min-height: 100vh;
+        transform: translateX(-100%);
+        transition: transform .2s;
+    }
+    .sidebar.open {
+        transform: translateX(0);
+    }
+    .sidebar-scrim:not([hidden]) {
+        display: block;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,.35);
+        z-index: 100;
+    }
+    .topbar {
+        height: 70px;
+    }
+    .mobile-menu-btn {
+        display: grid !important;
+    }
+    .search-field {
+        width: clamp(140px, 35vw, 240px);
+    }
+    .floating-menu {
+        right: 10px;
+    }
+}
+
+/* 반응형: 화면 너비가 (max-width: 580px) 조건을 만족하면 아래 스타일로 덮어씁니다. */
+@media (max-width: 580px) {
+    .main-content {
+        padding: 24px 18px 10px;
+    }
+    .topbar {
+        padding: 0 17px;
+        gap: 12px;
+    }
+    .search-field {
+        width: 135px;
+    }
+    .header-avatar {
+        display: none;
+    }
+    .overview-header {
+        align-items: start;
+    }
+    .overview-header h1 {
+        font-size: 27px;
+    }
+    .github-top {
+        padding: 9px;
+        font-size: 0;
+        gap: 0;
+    }
+    .github-top .icon {
+        width: 16px;
+        height: 16px;
+    }
+    .section-tabs {
+        gap: 19px;
+    }
+    .stats-grid {
+        gap: 7px;
+    }
+    .stat-card {
+        padding: 13px 12px;
+    }
+    .stat-card strong {
+        font-size: 24px;
+    }
+    .stat-icon {
+        width: 25px;
+        height: 25px;
+    }
+    .stat-card > span {
+        font-size: 10px;
+    }
+    .info-grid {
+        grid-template-columns: 1fr;
+    }
+    .profile-layout {
+        flex-direction: row;
+    }
+    .image-section {
+        width: 95px;
+        height: 123px;
+    }
+    .panel {
+        padding: 18px;
+    }
+    .site-footer {
+        flex-direction: column;
+    }
+}
+
+/* 반응형: 화면 너비가 (max-width: 380px) 조건을 만족하면 아래 스타일로 덮어씁니다. */
+@media (max-width: 380px) {
+    .profile-layout {
+        flex-direction: column;
+    }
+    .search-field {
+        width: 105px;
+    }
+}
+
+/* 반응형: 화면 너비가 (prefers-reduced-motion: reduce) 조건을 만족하면 아래 스타일로 덮어씁니다. */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0s !important;
+        animation-duration: 0s !important;
+    }
+}
+
+/* 접기·펼치기: 카드 제목을 누를 수 있음을 표시 */
+.content.panel .panel-heading h2 {
+    cursor: pointer;
+}
+.content.panel .panel-heading h2:hover {
+    color: var(--text-secondary);
+}
+.content.panel.collapsed > :not(.panel-heading) {
+    display: none !important;
+}
+.content.panel.collapsed {
+    padding-bottom: 7px;
+}
+.content.panel.collapsed .panel-heading {
+    margin-bottom: 14px;
+}
+
+/* ============================================================
+   ★ 이번 요청으로 추가한 배치 조정 ★
+   About Me가 메인 화면에서 할 일 보드보다 먼저 나옵니다.
+   HTML의 <div class="about-featured">가 이 스타일을 사용합니다.
+   ============================================================ */
+.about-featured {
+    margin: 24px 0 28px;
+}
+
+.about-featured .profile-panel {
+    padding: 24px;
+}
+
+.about-featured .profile-layout {
+    flex-direction: row;
+    align-items: center;
+    gap: 25px;
+}
+
+.about-featured .image-section {
+    width: 146px;
+    height: 158px;
+}
+
+/* About Me를 제외한 소개 카드는 아래쪽 2열로 배치합니다. */
+.info-grid .project-panel {
+    grid-column: 1 / -1;
+}
+
+/* 휴대폰에서는 소개 카드가 화면에 맞게 줄어듭니다. */
+@media (max-width: 580px) {
+    .about-featured .profile-panel { padding: 18px; }
+    .about-featured .profile-layout { gap: 13px; }
+    .about-featured .image-section { width: 95px; height: 123px; }
+    .info-grid .project-panel { grid-column: auto; }
+}
+
+@media (max-width: 380px) {
+    .about-featured .profile-layout { flex-direction: column; align-items: start; }
+}
