@@ -1,0 +1,29 @@
+1. 자바에서 입출력 (I/O)
+(1) byte stream 계열 : 1byte 단위로 데이터 읽기/쓰기
+- 대표 클래스
+InputStream : 1byte 단위로 읽기 -> 추상화 클래스
+OutputStream : 1byte 단위로 쓰기 -> 추상화 클래스
+
+-파일에 데이터 입출력
+FileInputStream : 1byte 단위로 파일에서 읽기
+FileOutputStream: : 1byte 단위로 파일에 쓰기
+
+*String class의 getByte() 메소드
+ : 문자열 -> byte 배열로 변경
+*byte 배열 -> 문자열 변경
+: byte[] b = new byte[256];
+  String str = new String(b);
+  String str = new String( b );str.trim(); //trim() : 빈 공백 제거
+
+
+-성능 향상을 위한 byte stream 계열클래스
+BufferedInputStream
+BufferedOutputSteram
+
+* flush() : 버퍼에 있는 데이터 밀어내기
+
+* 버퍼가 제공되는 경우에는 write() 해줘도 바로 파일에 데이터를 쓰는 게 아니라 버퍼에
+  앞으로 쓸 데이터를 쌓기만 함
+  지금 당장 버퍼에 데이털르 파일에 쓰려면 flush() 해줘야 함
+
+(2)chatracter stream 계열
