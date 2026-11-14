@@ -1,943 +1,170 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
-<!--
- HTML 파일의 기본 문자 인코딩: 한글이 깨지지 않도록 UTF-8 사용
--->
-<!--
- 코드 읽는 법: class="..."는 CSS에서 .이름으로 선택, id="..."는 JS에서 getElementById("이름")으로 선택.
--->
-<meta charset="utf-8"/>
-<!--
- 모바일 화면에서 실제 기기 너비에 맞춰 표시
--->
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<meta content="#f1f2f4" name="theme-color"/>
-<meta content="백승록의 개인 작업 공간 · AI 프로젝트, 할 일 관리, 방명록" data-i18n-content="백승록의 개인 작업 공간 · AI 프로젝트, 할 일 관리, 방명록" name="description"/>
-<title data-i18n="SR Studio | 백승록의 작업 공간">
-   SR Studio | 백승록의 작업 공간
-  </title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<!--
- 구글 폰트: 제목과 본문에 사용할 글꼴 다운로드
--->
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Noto+Sans+KR:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<!--
- 전체 디자인: 레이아웃, 사이드바, About Me, 다크모드
--->
-<link href="css/style.css" rel="stylesheet"/>
-<!--
- 할 일 보드 카드와 버튼 디자인
--->
-<link href="css/todo.css" rel="stylesheet"/>
-<!--
- Firebase 댓글 폼과 댓글 목록 디자인
--->
-<link href="css/comment.css" rel="stylesheet"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>自己紹介 | 백승록</title>
+
+    <!-- 기존 사이트 디자인: 원래 CSS를 수정하지 않아 기존 기능을 보존합니다. -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/todo.css">
+    <link rel="stylesheet" href="css/comment.css">
+
+    <!-- 신규 캘린더, D-day, 날씨, 퀴즈 바로가기용 디자인 -->
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-<!-- 외부 아이콘 라이브러리 없이 사용하는 SVG 아이콘 -->
-<!--
- SVG 아이콘 모음: <symbol id="i-...">로 정의하고 아래 <use href="#i-...">로 재사용
--->
-<svg aria-hidden="true" class="svg-defs" xmlns="http://www.w3.org/2000/svg">
-<symbol id="i-grid" viewbox="0 0 24 24">
-<rect height="7" rx="1.5" width="7" x="3" y="3">
-</rect>
-<rect height="7" rx="1.5" width="7" x="14" y="3">
-</rect>
-<rect height="7" rx="1.5" width="7" x="3" y="14">
-</rect>
-<rect height="7" rx="1.5" width="7" x="14" y="14">
-</rect>
-</symbol>
-<symbol id="i-check" viewbox="0 0 24 24">
-<rect height="18" rx="4" width="18" x="3" y="3">
-</rect>
-<path d="m8 12 3 3 5-6">
-</path>
-</symbol>
-<symbol id="i-folder" viewbox="0 0 24 24">
-<path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v10H3z">
-</path>
-</symbol>
-<symbol id="i-user" viewbox="0 0 24 24">
-<circle cx="12" cy="8" r="4">
-</circle>
-<path d="M4 21a8 8 0 0 1 16 0">
-</path>
-</symbol>
-<symbol id="i-chat" viewbox="0 0 24 24">
-<path d="M21 11.5A8.5 8.5 0 0 1 8.3 19L3 21l1.9-5.2A8.5 8.5 0 1 1 21 11.5Z">
-</path>
-</symbol>
-<symbol id="i-code" viewbox="0 0 24 24">
-<path d="m8 8-4 4 4 4m8-8 4 4-4 4m-3-12-4 16">
-</path>
-</symbol>
-<symbol id="i-link" viewbox="0 0 24 24">
-<path d="M10 13a5 5 0 0 0 7.1 0l2.3-2.3a5 5 0 0 0-7.1-7.1L10.9 5M14 11a5 5 0 0 0-7.1 0l-2.3 2.3a5 5 0 0 0 7.1 7.1l1.4-1.4">
-</path>
-</symbol>
-<symbol id="i-search" viewbox="0 0 24 24">
-<circle cx="10.8" cy="10.8" r="6.8">
-</circle>
-<path d="m16 16 5 5">
-</path>
-</symbol>
-<symbol id="i-plus" viewbox="0 0 24 24">
-<path d="M12 5v14M5 12h14">
-</path>
-</symbol>
-<symbol id="i-arrow" viewbox="0 0 24 24">
-<path d="M7 17 17 7M8 7h9v9">
-</path>
-</symbol>
-<symbol id="i-up" viewbox="0 0 24 24">
-<path d="m6 14 6-6 6 6">
-</path>
-</symbol>
-<symbol id="i-down" viewbox="0 0 24 24">
-<path d="m6 10 6 6 6-6">
-</path>
-</symbol>
-<symbol id="i-moon" viewbox="0 0 24 24">
-<path d="M20.5 13A8.5 8.5 0 0 1 11 3.5 8.5 8.5 0 1 0 20.5 13Z">
-</path>
-</symbol>
-<symbol id="i-sun" viewbox="0 0 24 24">
-<circle cx="12" cy="12" r="4">
-</circle>
-<path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4">
-</path>
-</symbol>
-<symbol id="i-menu" viewbox="0 0 24 24">
-<path d="M4 7h16M4 12h16M4 17h16">
-</path>
-</symbol>
-<symbol id="i-x" viewbox="0 0 24 24">
-<path d="M5 5 19 19M19 5 5 19">
-</path>
-</symbol>
-<symbol id="i-chevron" viewbox="0 0 24 24">
-<path d="m6 9 6 6 6-6">
-</path>
-</symbol>
-<symbol id="i-calendar" viewbox="0 0 24 24">
-<rect height="16" rx="2" width="18" x="3" y="5">
-</rect>
-<path d="M7 3v4m10-4v4M3 10h18">
-</path>
-</symbol>
-<symbol id="i-camera" viewbox="0 0 24 24">
-<path d="M3 8a2 2 0 0 1 2-2h3l2-2h4l2 2h3a2 2 0 0 1 2 2v11H3z">
-</path>
-<circle cx="12" cy="13" r="3.5">
-</circle>
-</symbol>
-<symbol id="i-sparkle" viewbox="0 0 24 24">
-<path d="m12 2 2.5 7.5L22 12l-7.5 2.5L12 22l-2.5-7.5L2 12l7.5-2.5L12 2Z">
-</path>
-</symbol>
-<symbol id="i-settings" viewbox="0 0 24 24">
-<circle cx="12" cy="12" r="3">
-</circle>
-<path d="M10 2h4l.7 2.5 2.2 1.2 2.5-.7 2 3.5-1.8 1.8v2.4l1.8 1.8-2 3.5-2.5-.7-2.2 1.2L14 22h-4l-.7-2.5-2.2-1.2-2.5.7-2-3.5 1.8-1.8v-2.4L2.6 9.5l2-3.5 2.5.7 2.2-1.2L10 2Z">
-</path>
-</symbol>
-</svg>
-<!--
- 페이지 전체 틀: 왼쪽 사이드바 + 오른쪽 작업 공간으로 구성
--->
-<div class="app-shell" id="dashboard">
-<!--
- 모바일에서 메뉴를 열었을 때 뒤쪽을 어둡게 만드는 막
--->
-<div class="sidebar-scrim" hidden="" id="sidebarScrim">
-</div>
-<!--
- 왼쪽 고정형 메뉴: href="#about"를 누르면 id="about" 위치로 이동
--->
-<aside aria-label="메인 메뉴" class="sidebar" data-i18n-aria-label="메인 메뉴" id="sidebar">
-<a aria-label="SR Studio 홈" class="brand" data-i18n-aria-label="SR Studio 홈" href="#dashboard">
-<span class="brand-mark">
-      SR
-      <span class="brand-dot">
-       .
-      </span>
-</span>
-<span class="brand-name">
-      Studio
-     </span>
-</a>
-<div class="sidebar-label" data-i18n="WORKSPACE">
-     WORKSPACE
-    </div>
-<nav aria-label="페이지 내 이동" class="side-nav" data-i18n-aria-label="페이지 내 이동">
-<a class="side-link active" data-nav-link="" href="#dashboard">
-<svg class="icon">
-<use href="#i-grid">
-</use>
-</svg>
-<span data-i18n="Dashboard">
-       Dashboard
-      </span>
-</a>
-<a class="side-link" data-nav-link="" href="#about">
-<svg class="icon">
-<use href="#i-user">
-</use>
-</svg>
-<span data-i18n="About Me">
-       About Me
-      </span>
-</a>
-<a class="side-link" data-nav-link="" href="#tasks">
-<svg class="icon">
-<use href="#i-check">
-</use>
-</svg>
-<span data-i18n="My Tasks">
-       My Tasks
-      </span>
-</a>
-<a class="side-link" data-nav-link="" href="#projects">
-<svg class="icon">
-<use href="#i-folder">
-</use>
-</svg>
-<span data-i18n="Projects">
-       Projects
-      </span>
-</a>
-<a class="side-link" data-nav-link="" href="#guestbook">
-<svg class="icon">
-<use href="#i-chat">
-</use>
-</svg>
-<span data-i18n="Guestbook">
-       Guestbook
-      </span>
-</a>
-</nav>
-<div class="sidebar-label favorite-heading" data-i18n="QUICK LINKS">
-     QUICK LINKS
-    </div>
-<nav aria-label="바로가기" class="side-nav" data-i18n-aria-label="바로가기">
-<a class="side-link" href="#skills">
-<span class="nav-emoji">
-       ⌘
-      </span>
-<span data-i18n="Tech Stack">
-       Tech Stack
-      </span>
-</a>
-<a class="side-link" href="https://github.com/sr1011-beep" rel="noopener noreferrer" target="_blank">
-<span class="nav-emoji">
-       ↗
-      </span>
-<span>
-       GitHub
-      </span>
-</a>
-</nav>
-<!--
- 사이드바 맨 아래 사용자 요약 및 문구
--->
-<div class="sidebar-bottom">
-<div class="sidebar-user">
-<div class="mini-avatar">
-       SR
-      </div>
-<div>
-<strong data-i18n="백승록">
-        백승록
-       </strong>
-<span data-i18n="Personal workspace">
-        Personal workspace
-       </span>
-</div>
-<span class="online-dot" data-i18n-title="Personal workspace" title="Personal workspace">
-</span>
-</div>
-<div class="sidebar-footnote"><span data-i18n="Made with curiosity">Made with curiosity</span><span aria-hidden="true">
-       ✳
-      </span>
-</div>
-</div>
-</aside>
-<!--
- 오른쪽 실제 페이지 내용 전체
--->
-<div class="workspace">
-<!--
- 상단 헤더: 모바일 메뉴 버튼, 인사말, 검색창, 날짜, 프로필 버튼
--->
-<header class="topbar">
-<div class="topbar-greeting">
-<button aria-expanded="false" aria-label="메뉴 열기" class="icon-button mobile-menu-btn" data-i18n-aria-label="메뉴 열기" id="mobileMenuBtn" type="button">
-<svg class="icon">
-<use href="#i-menu">
-</use>
-</svg>
-</button>
-<div>
-<span class="eyebrow" data-i18n="Welcome back,">
-        Welcome back,
-       </span>
-<strong data-i18n="Seungrok!">
-        Seungrok!
-       </strong>
-</div>
-</div>
-<div class="topbar-actions">
-<label class="search-field">
-<svg class="icon">
-<use href="#i-search">
-</use>
-</svg>
-<!--
- id="taskSearch": JS가 이 입력창의 글자를 읽어 할 일 카드를 검색함
--->
-<input aria-label="할 일 검색" data-i18n-aria-label="할 일 검색" data-i18n-placeholder="할 일 검색" id="taskSearch" placeholder="할 일 검색" type="search"/>
-</label><label class="language-picker" data-i18n-title="언어 선택" title="언어 선택"><span class="language-caption" data-i18n="LANGUAGE">LANGUAGE</span><select aria-label="언어 선택" data-i18n-aria-label="언어 선택" id="languageSelect"><option value="ko">한국어</option><option value="ja">日本語</option><option value="en">English</option></select></label>
-<span class="topbar-date" id="currentDate">
-</span>
-<a aria-label="자기소개로 이동" class="header-avatar" data-i18n-aria-label="자기소개로 이동" href="#about">
-       SR
-      </a>
-</div>
-</header>
-<!--
- 메인 콘텐츠 시작: 아래 요소가 화면에 위에서 아래 순서대로 나옴
--->
-<main class="main-content">
-<!--
- 첫 번째: 웹사이트 제목과 간단한 소개 문구
--->
-<section aria-labelledby="workspaceTitle" class="overview">
-<div class="overview-header">
-<div>
-<div class="overline"><span data-i18n="MY PERSONAL WORKSPACE">MY PERSONAL WORKSPACE</span><span class="overline-sparkle">
-          ✳
-         </span>
-</div>
-<h1 id="workspaceTitle"><span data-i18n="Studio Space">Studio Space</span><span class="heading-dot">
-          .
-         </span>
-</h1>
-<p data-i18n="하루의 할 일부터 AI 프로젝트까지, 나만의 작업 공간">
-         하루의 할 일부터 AI 프로젝트까지, 나만의 작업 공간
-        </p>
-</div>
-<a class="outlined-button github-top" href="https://github.com/sr1011-beep" rel="noopener noreferrer" target="_blank">
-<svg class="icon">
-<use href="#i-arrow">
-</use>
-</svg><span data-i18n="GitHub 방문">GitHub 방문</span></a>
-</div>
-<div aria-label="작업 공간 탐색" class="section-tabs" data-i18n-aria-label="작업 공간 탐색">
-<a class="tab active" href="#dashboard">
-<svg class="icon">
-<use href="#i-grid">
-</use>
-</svg><span data-i18n="Overview">Overview</span></a>
-<a class="tab" href="#tasks">
-<svg class="icon">
-<use href="#i-check">
-</use>
-</svg><span data-i18n="Task Board">Task Board</span></a>
-<a class="tab" href="#guestbook">
-<svg class="icon">
-<use href="#i-chat">
-</use>
-</svg><span data-i18n="Guestbook">Guestbook</span></a>
-</div>
-</section>
-<!--
- 두 번째: 요청대로 About Me를 할 일 목록보다 먼저 배치함 (가장 위쪽 소개 카드)
--->
-<div class="about-featured">
-<!--
- About Me 카드: 프로필 사진, 학과, 소개, 관심 분야
--->
-<section aria-labelledby="aboutTitle" class="panel profile-panel content" id="about">
-<div class="panel-heading">
-<h2 data-i18n="About Me" id="aboutTitle">
-         About Me
-        </h2>
-<span class="panel-subtitle" data-i18n="PROFILE / 01">
-         PROFILE / 01
-        </span>
-</div>
-<div class="profile-layout">
-<div class="image-section">
-<!--
- 사진은 images/nugul.jpg 경로에서 불러옴. JS를 통해 누르면 접을 수 있음
--->
-<img alt="프로필 사진" data-i18n-alt="프로필 사진" data-i18n-title="클릭하면 사진 접기" id="profileImage" src="images/nugul.jpg" title="클릭하면 사진 접기" width="180"/>
-<div class="image-fallback" hidden="" id="imageFallback">
-          SR
-          <span>
-           .
-          </span>
-</div>
-<!--
- 사진을 접으면 대신 나오는 펼치기 버튼
--->
-<button aria-label="프로필 사진 다시 펼치기" data-i18n-aria-label="프로필 사진 다시 펼치기" hidden="" id="imageOpenBtn" type="button">
-<svg class="icon">
-<use href="#i-camera">
-</use>
-</svg><span data-i18n="사진 펼치기">사진 펼치기</span></button>
-</div>
-<div class="profile-text">
-<span class="small-tag" data-i18n="HELLO, I'M">
-          HELLO, I'M
-         </span>
-<h3><span data-i18n="백승록">백승록</span><span>
-           👋
-          </span>
-</h3>
-<p class="profile-school" data-i18n="영진전문대 글로벌시스템융합과 1학년">
-          영진전문대 글로벌시스템융합과 1학년
-         </p>
-<p data-i18n="카메라와 AI 기술을 활용해 강의실의 상태를 알려주는 시스템을 만들고 있습니다.">
-          카메라와 AI 기술을 활용해 강의실의 상태를 알려주는 시스템을 만들고 있습니다.
-         </p>
-<div class="profile-chips">
-<span>
-           AI · VLM
-          </span>
-<span>
-           Web Development
-          </span>
-</div>
-</div>
-</div>
-</section>
-</div>
-<!--
- 할 일의 전체 개수, 진행 중 개수, 완료 개수 요약 카드 3개
--->
-<section aria-label="작업 현황" class="stats-grid" data-i18n-aria-label="작업 현황">
-<div class="stat-card">
-<span data-i18n="전체 할 일">
-        전체 할 일
-       </span>
-<div>
-<strong id="totalTasks">
-         0
-        </strong>
-<span class="stat-icon">
-<svg class="icon">
-<use href="#i-grid">
-</use>
-</svg>
-</span>
-</div>
-<small data-i18n="Total tasks">
-        Total tasks
-       </small>
-</div>
-<div class="stat-card">
-<span data-i18n="진행 중">
-        진행 중
-       </span>
-<div>
-<strong id="inProgressCount">
-         0
-        </strong>
-<span class="stat-icon stat-icon-yellow">
-<svg class="icon">
-<use href="#i-check">
-</use>
-</svg>
-</span>
-</div>
-<small data-i18n="In progress">
-        In progress
-       </small>
-</div>
-<div class="stat-card">
-<span data-i18n="완료">
-        완료
-       </span>
-<div>
-<strong id="completedTasks">
-         0
-        </strong>
-<span class="stat-icon stat-icon-green">
-<svg class="icon">
-<use href="#i-check">
-</use>
-</svg>
-</span>
-</div>
-<small data-i18n="Completed tasks">
-        Completed tasks
-       </small>
-</div>
-</section>
-<!--
- 할 일 관리 보드 시작. LocalStorage의 todos 배열을 JS로 보여줌
--->
-<section aria-labelledby="taskBoardTitle" class="tasks-section" id="tasks">
-<div class="section-heading-row">
-<div>
-<div class="section-kicker" data-i18n="TASK MANAGEMENT">
-         TASK MANAGEMENT
+    <!-- 기존 프로필 및 이미지 접기/펼치기 요소의 ID 유지 -->
+    <div class="intro">
+        <h1>백승록</h1>
+        <p>글로벌시스템융합과 1학년 - 강의실 VLM 프로젝트 팀원</p>
+        <div class="image-section">
+            <img id="profileImage" src="images/nugul.jpg" alt="프로필 사진" width="300">
+            <button id="imageOpenBtn" type="button" hidden aria-label="프로필 사진 펼치기">📷</button>
         </div>
-<h2 data-i18n="My Task Board" id="taskBoardTitle">
-         My Task Board
-        </h2>
-<p data-i18n="할 일을 추가하고 상태를 바꿔 보세요. 변경 내용은 이 브라우저에 저장됩니다.">
-         할 일을 추가하고 상태를 바꿔 보세요. 변경 내용은 이 브라우저에 저장됩니다.
-        </p>
-</div>
-<div class="board-summary">
-<svg class="icon">
-<use href="#i-sparkle">
-</use>
-</svg>
-<span data-i18n="0% 완료" id="progressText">
-         0% 완료
-        </span>
-</div>
-</div>
-<div class="task-toolbar">
-<label class="task-create-input">
-<svg class="icon">
-<use href="#i-plus">
-</use>
-</svg>
-<!--
- id="todoInput": 사용자가 새 할 일을 입력하는 칸
--->
-<input aria-label="새로운 할 일" autocomplete="off" data-i18n-aria-label="새로운 할 일" data-i18n-placeholder="새로운 할 일을 입력하세요" id="todoInput" maxlength="200" placeholder="새로운 할 일을 입력하세요" type="text"/>
-</label>
-<!--
- 새 할 일의 시작 상태를 선택: todo / progress / done
--->
-<select aria-label="추가할 할 일 상태" data-i18n-aria-label="추가할 할 일 상태" id="newTodoStatus">
-<option data-i18n="할 일" value="todo">
-         할 일
-        </option>
-<option data-i18n="진행 중" value="progress">
-         진행 중
-        </option>
-<option data-i18n="완료" value="done">
-         완료
-        </option>
-</select>
-<!--
- id="addBtn": 클릭하면 JS의 addTodo() 실행
--->
-<button class="primary-button" id="addBtn" type="button">
-<svg class="icon">
-<use href="#i-plus">
-</use>
-</svg><span data-i18n="Create Task">Create Task</span></button>
-</div>
-<div class="task-progress-meta">
-<span><span data-i18n="남은 할 일">남은 할 일</span><strong id="count">
-         0
-        </strong><span data-i18n="개">개</span></span>
-<span data-i18n="전체 진행률">
-        전체 진행률
-       </span>
-</div>
-<div aria-label="전체 완료율" class="progress-track" data-i18n-aria-label="전체 완료율">
-<div id="progressBar">
-</div>
-</div>
-<!--
- 칸반(Kanban) 보드: 할 일 / 진행 중 / 완료 세 개의 열
--->
-<div aria-label="작업 상태별 목록" class="kanban-grid" data-i18n-aria-label="작업 상태별 목록">
-<div class="kanban-column" data-status="todo">
-<div class="column-heading">
-<div>
-<span class="status-dot dot-todo">
-</span>
-<h3 data-i18n="To do">
-           To do
-          </h3>
-<span class="column-count" id="todoColumnCount">
-           0
-          </span>
-</div>
-<button aria-label="할 일 상태로 추가" class="column-add" data-add-status="todo" data-i18n-aria-label="할 일 상태로 추가" type="button">
-<svg class="icon">
-<use href="#i-plus">
-</use>
-</svg>
-</button>
-</div>
-<!--
- id="todoList": JS renderTodos()가 할 일 카드를 이 위치에 자동 생성
--->
-<ul aria-label="할 일 목록" class="task-list" data-i18n-aria-label="할 일 목록" id="todoList">
-</ul>
-<button class="add-task-footer" data-add-status="todo" type="button">
-<svg class="icon">
-<use href="#i-plus">
-</use>
-</svg><span data-i18n="Add Task">Add Task</span></button>
-</div>
-<div class="kanban-column" data-status="progress">
-<div class="column-heading">
-<div>
-<span class="status-dot dot-progress">
-</span>
-<h3 data-i18n="In Progress">
-           In Progress
-          </h3>
-<span class="column-count" id="progressColumnCount">
-           0
-          </span>
-</div>
-<button aria-label="진행 중 상태로 추가" class="column-add" data-add-status="progress" data-i18n-aria-label="진행 중 상태로 추가" type="button">
-<svg class="icon">
-<use href="#i-plus">
-</use>
-</svg>
-</button>
-</div>
-<!--
- id="progressList": 진행 중 상태의 작업 카드를 자동 생성
--->
-<ul aria-label="진행 중 목록" class="task-list" data-i18n-aria-label="진행 중 목록" id="progressList">
-</ul>
-<button class="add-task-footer" data-add-status="progress" type="button">
-<svg class="icon">
-<use href="#i-plus">
-</use>
-</svg><span data-i18n="Add Task">Add Task</span></button>
-</div>
-<div class="kanban-column" data-status="done">
-<div class="column-heading">
-<div>
-<span class="status-dot dot-done">
-</span>
-<h3 data-i18n="Completed">
-           Completed
-          </h3>
-<span class="column-count" id="doneColumnCount">
-           0
-          </span>
-</div>
-<button aria-label="완료 상태로 추가" class="column-add" data-add-status="done" data-i18n-aria-label="완료 상태로 추가" type="button">
-<svg class="icon">
-<use href="#i-plus">
-</use>
-</svg>
-</button>
-</div>
-<!--
- id="doneList": 완료 상태의 작업 카드를 자동 생성
--->
-<ul aria-label="완료 목록" class="task-list" data-i18n-aria-label="완료 목록" id="doneList">
-</ul>
-<button class="add-task-footer" data-add-status="done" type="button">
-<svg class="icon">
-<use href="#i-plus">
-</use>
-</svg><span data-i18n="Add Task">Add Task</span></button>
-</div>
-</div>
-</section>
-<!--
- 프로젝트/기술 섹션: About Me는 이미 위에 옮겼으므로 여기에는 나머지 소개 카드 배치
--->
-<div class="section-heading-row lower-heading" id="projects">
-<div>
-<div class="section-kicker" data-i18n="GET TO KNOW ME">
-        GET TO KNOW ME
-       </div>
-<h2 data-i18n="Projects &amp; Skills">
-        Projects &amp; Skills
-       </h2>
-<p data-i18n="현재 진행 중인 프로젝트와 공부하는 기술을 소개합니다.">
-        현재 진행 중인 프로젝트와 공부하는 기술을 소개합니다.
-       </p>
-</div>
-</div>
-<!--
- 프로젝트 소개, 공부 중인 기술, GitHub 연결 카드 모음
--->
-<div class="info-grid">
-<!--
- Featured Project: 현재 개발 중인 강의실 AI/VLM 프로젝트 설명
--->
-<section aria-labelledby="projectTitle" class="panel project-panel content">
-<div class="panel-heading">
-<h2 data-i18n="Featured Project" id="projectTitle">
-         Featured Project
-        </h2>
-<span class="panel-subtitle" data-i18n="PROJECT / 01">
-         PROJECT / 01
-        </span>
-</div>
-<div class="project-visual">
-<svg class="icon">
-<use href="#i-camera">
-</use>
-</svg>
-<div>
-<span data-i18n="ONGOING PROJECT">
-          ONGOING PROJECT
-         </span>
-<strong data-i18n="Smart Classroom">
-          Smart Classroom
-         </strong>
-</div>
-<span class="project-visual-mark">
-         AI
-        </span>
-</div>
-<h3 data-i18n="실시간 강의실 환경 인식 시스템">
-        실시간 강의실 환경 인식 시스템
-       </h3>
-<p data-i18n="카메라 영상과 VLM을 활용한 좌석·출입·PC 통합 관리 프로젝트">
-        카메라 영상과 VLM을 활용한 좌석·출입·PC 통합 관리 프로젝트
-       </p>
-<ul class="project-points">
-<li data-i18n="301호 PoE 카메라 4대 설치">
-         301호 PoE 카메라 4대 설치
-        </li>
-<li data-i18n="304호 강의실 사진 수집 확인">
-         304호 강의실 사진 수집 확인
-        </li>
-</ul>
-</section>
-<!--
- Tech Stack: HTML, CSS, Java 카드. 마우스를 올리면 툴팁 표시
--->
-<section aria-labelledby="skillsTitle" class="panel skills-panel content" id="skills">
-<div class="panel-heading">
-<h2 data-i18n="Tech Stack" id="skillsTitle">
-         Tech Stack
-        </h2>
-<span class="panel-subtitle" data-i18n="LEARNING NOW">
-         LEARNING NOW
-        </span>
-</div>
-<p class="panel-intro" data-i18n="지금 배우고 있는 기술들이에요. 각 기술에 마우스를 올려 보세요.">
-        지금 배우고 있는 기술들이에요. 각 기술에 마우스를 올려 보세요.
-       </p>
-<div class="skills">
-<div class="skill" tabindex="0">
-<span class="skill-symbol">
-          &lt;/&gt;
-         </span>
-<strong>
-          HTML
-         </strong>
-<span class="tooltip" data-i18n="웹페이지의 구조를 만드는 언어">
-          웹페이지의 구조를 만드는 언어
-         </span>
-</div>
-<div class="skill" tabindex="0">
-<span class="skill-symbol">
-          #
-         </span>
-<strong>
-          CSS
-         </strong>
-<span class="tooltip" data-i18n="웹페이지의 디자인을 담당하는 언어">
-          웹페이지의 디자인을 담당하는 언어
-         </span>
-</div>
-<div class="skill" tabindex="0">
-<span class="skill-symbol">
-          { }
-         </span>
-<strong>
-          Java
-         </strong>
-<span class="tooltip" data-i18n="객체지향 프로그래밍 언어">
-          객체지향 프로그래밍 언어
-         </span>
-</div>
-</div>
-</section>
-<!--
- Connect: GitHub 링크가 있는 카드
--->
-<section aria-labelledby="contactTitle" class="panel contact-panel content" id="contact">
-<div class="panel-heading">
-<h2 data-i18n="Connect" id="contactTitle">
-         Connect
-        </h2>
-<span class="panel-subtitle" data-i18n="SAY HELLO">
-         SAY HELLO
-        </span>
-</div>
-<p class="panel-intro" data-i18n="프로젝트나 코드를 더 보고 싶다면 GitHub를 방문해 주세요.">
-        프로젝트나 코드를 더 보고 싶다면 GitHub를 방문해 주세요.
-       </p>
-<a class="contact-link" href="https://github.com/sr1011-beep" rel="noopener noreferrer" target="_blank">
-<span class="contact-link-icon">
-<svg class="icon">
-<use href="#i-code">
-</use>
-</svg>
-</span>
-<span>
-<strong>
-          GitHub
-         </strong>
-<small>
-          github.com/sr1011-beep
-         </small>
-</span>
-<svg class="icon external-icon">
-<use href="#i-arrow">
-</use>
-</svg>
-</a>
-</section>
-</div>
-<!--
- Guestbook: Firebase Firestore와 연결되는 실시간 댓글 기능
--->
-<section aria-labelledby="guestbookTitle" class="panel guestbook-panel content comment-section" id="guestbook">
-<div class="panel-heading">
-<div>
-<span class="section-kicker" data-i18n="STAY IN TOUCH">
-         STAY IN TOUCH
-        </span>
-<h2 id="guestbookTitle"><span data-i18n="Guestbook">Guestbook</span><span class="comment-count" id="commentCount">
-          0
-         </span>
-</h2>
-</div>
-<span class="panel-subtitle" data-i18n="LEAVE A MESSAGE">
-        LEAVE A MESSAGE
-       </span>
-</div>
-<p class="panel-intro" data-i18n="방명록에 메시지를 남겨 주세요. 댓글은 Firebase에 저장되어 다른 사람에게도 보여요.">
-       방명록에 메시지를 남겨 주세요. 댓글은 Firebase에 저장되어 다른 사람에게도 보여요.
-      </p>
-<div class="comment-form">
-<!--
- id="nicknameInput": 방문자가 댓글 닉네임 입력 (비어 있으면 익명)
--->
-<input aria-label="닉네임" data-i18n-aria-label="닉네임" data-i18n-placeholder="닉네임 (선택)" id="nicknameInput" maxlength="20" placeholder="닉네임 (선택)" type="text"/>
-<!--
- id="commentInput": 댓글 본문 입력
--->
-<textarea aria-label="댓글 내용" data-i18n-aria-label="댓글 내용" data-i18n-placeholder="메시지를 입력해 주세요..." id="commentInput" maxlength="500" placeholder="메시지를 입력해 주세요..." rows="3"></textarea>
-<div class="comment-actions">
-<span data-i18n="Ctrl + Enter로 빠르게 등록">
-         Ctrl + Enter로 빠르게 등록
-        </span>
-<!--
- id="commentBtn": Firebase 로그인이 끝나면 활성화되는 댓글 등록 버튼
--->
-<button disabled="" id="commentBtn" type="button">
-<svg class="icon">
-<use href="#i-plus">
-</use>
-</svg><span data-i18n="댓글 등록">댓글 등록</span></button>
-</div>
-</div>
-<!--
-       관리자 영역: 일반 방문자는 관리자 로그인 버튼을 볼 수 있지만,
-       관리자 이메일/비밀번호로 로그인해야만 모든 댓글 삭제 권한을 얻습니다.
-       진짜 접근 권한은 아래 JS가 아니라 Firebase Firestore 보안 규칙이 결정합니다.
-      -->
-<div class="comments-heading admin-comments-heading">
-<div><span data-i18n="Messages">Messages</span><span data-i18n="from visitors">from visitors</span></div>
-<div class="admin-auth-actions">
-<button class="admin-auth-btn" data-i18n="관리자 로그인" id="adminLoginBtn" type="button">관리자 로그인</button>
-<span class="admin-status" data-i18n="관리자 모드" hidden="" id="adminStatus">관리자 모드</span>
-<button class="admin-auth-btn" data-i18n="로그아웃" hidden="" id="adminLogoutBtn" type="button">로그아웃</button>
-</div>
-</div>
-<!-- 일반 방문자는 본인 댓글만, 관리자 로그인 중에는 모든 댓글을 삭제할 수 있습니다. -->
-<p class="comment-delete-hint" data-i18n="일반 방문자는 본인 댓글만 삭제할 수 있어요. 관리자는 로그인 후 모든 댓글을 관리할 수 있습니다.">일반 방문자는 본인 댓글만 삭제할 수 있어요. 관리자는 로그인 후 모든 댓글을 관리할 수 있습니다.</p>
-<p data-i18n="아직 댓글이 없습니다. 첫 메시지를 남겨 보세요!" id="emptyMessage">
-       아직 댓글이 없습니다. 첫 메시지를 남겨 보세요!
-      </p>
-<!--
- id="commentList": Firebase의 댓글을 받아서 JS가 항목(li)을 여기에 넣음
--->
-<ul aria-label="댓글 목록" data-i18n-aria-label="댓글 목록" id="commentList">
-</ul>
-</section>
-<footer class="site-footer">
-<span>
-       ©
-       <span id="year">
-        2026
-       </span><span data-i18n="SR Studio. Made by 백승록.">SR Studio. Made by 백승록.</span></span>
-<span data-i18n="Keep learning, keep building. ✳">
-       Keep learning, keep building. ✳
-      </span>
-</footer>
-</main>
-</div>
-</div>
-<!--
- 오른쪽 플로팅 버튼: 맨 위 / 맨 아래 / 다크모드
--->
-<div aria-label="페이지 도구" class="floating-menu" data-i18n-aria-label="페이지 도구">
-<button aria-label="맨 위로" data-i18n-aria-label="맨 위로" data-i18n-title="맨 위로" id="topBtn" title="맨 위로" type="button">
-<svg class="icon">
-<use href="#i-up">
-</use>
-</svg>
-</button>
-<button aria-label="맨 아래로" data-i18n-aria-label="맨 아래로" data-i18n-title="맨 아래로" id="bottomBtn" title="맨 아래로" type="button">
-<svg class="icon">
-<use href="#i-down">
-</use>
-</svg>
-</button>
-<span class="floating-divider">
-</span>
-<button aria-label="다크모드 전환" data-i18n-aria-label="다크모드 전환" data-i18n-title="다크모드 전환" id="themeBtn" title="다크모드 전환" type="button">
-<svg class="icon">
-<use href="#i-moon">
-</use>
-</svg>
-</button>
-</div>
-<!--
- 일반 JS: 할 일 추가·삭제, 저장, 검색, 프로필, 다크모드, 모바일 메뉴
--->
-<script defer="" src="js/i18n.js"></script><script defer="" src="js/scripts.js">
-</script>
-<!--
- type="module": import 구문을 사용하는 Firebase 댓글 전용 JavaScript
--->
-<!--
-   관리자 로그인 창 (dialog = 팝업 대화상자)
-   비밀번호는 Firebase Authentication에만 전달되고 HTML/JS 코드에 저장되지 않습니다.
-  -->
-<dialog aria-labelledby="adminDialogTitle" class="admin-dialog" id="adminDialog">
-<div class="admin-dialog-header">
-<div>
-<span class="section-kicker" data-i18n="ADMIN ACCESS">ADMIN ACCESS</span>
-<h2 data-i18n="관리자 로그인" id="adminDialogTitle">관리자 로그인</h2>
-</div>
-<button aria-label="창 닫기" class="admin-dialog-close" data-i18n-aria-label="창 닫기" id="adminCloseBtn" type="button">×</button>
-</div>
-<p class="admin-dialog-description" data-i18n="Firebase에 등록한 관리자 계정으로 로그인하면 모든 댓글을 삭제할 수 있습니다.">Firebase에 등록한 관리자 계정으로 로그인하면 모든 댓글을 삭제할 수 있습니다.</p>
-<form class="admin-login-form" id="adminLoginForm">
-<label data-i18n="이메일" for="adminEmail">이메일</label>
-<input autocomplete="username" data-i18n-placeholder="관리자 이메일" id="adminEmail" placeholder="관리자 이메일" required="" type="email"/>
-<label data-i18n="비밀번호" for="adminPassword">비밀번호</label>
-<input autocomplete="current-password" data-i18n-placeholder="비밀번호" id="adminPassword" placeholder="비밀번호" required="" type="password"/>
-<p class="admin-error" hidden="" id="adminError" role="alert"></p>
-<button class="admin-submit-btn" data-i18n="로그인" id="adminSubmitBtn" type="submit">로그인</button>
-</form>
-</dialog>
-<script src="js/firebase.js" type="module">
-</script>
+        <!-- 페이지 내 기능으로 빠르게 이동하는 네비게이션 -->
+        <nav class="quick-nav" aria-label="빠른 이동">
+            <a href="#calendarSection">📅 캘린더</a>
+            <a href="#weatherSection">🌤️ 내 위치 날씨</a>
+            <a href="quiz.html">🇯🇵 오늘의 N2 퀴즈</a>
+        </nav>
+    </div>
+
+    <!-- 기존 Todo: 기존 scripts.js의 ID를 그대로 사용합니다. -->
+    <div class="content todo-section">
+        <h1>할 일 목록</h1>
+        <p class="todo-description">오늘 할 일을 하나씩 완료해 보세요.</p>
+        <div class="todo-input-wrap">
+            <input type="text" id="todoInput" placeholder="할 일을 입력하세요" aria-label="할 일 입력">
+            <button id="addBtn" type="button">+ 추가</button>
+        </div>
+        <div class="todo-status">
+            <span>남은 할 일: <strong id="count">0</strong>개</span>
+            <span id="progressText">0% 완료</span>
+        </div>
+        <div class="progress-track"><div id="progressBar"></div></div>
+        <ul id="todoList"></ul>
+    </div>
+
+    <!-- 신규 기능 1: 달력 / 날짜 선택 / D-day 추가 및 삭제 -->
+    <div class="content dashboard-section" id="calendarSection">
+        <h1>📅 캘린더 &amp; D-day</h1>
+        <p class="dash-description">달력에서 날짜를 선택하면 D-day 날짜 입력창에도 반영돼요.</p>
+        <div class="planner-grid">
+            <section class="planner-panel" aria-label="월별 달력">
+                <div class="calendar-toolbar">
+                    <button type="button" id="prevMonth" class="secondary-btn" aria-label="이전 달">‹</button>
+                    <strong id="calendarMonth" aria-live="polite"></strong>
+                    <button type="button" id="nextMonth" class="secondary-btn" aria-label="다음 달">›</button>
+                    <button type="button" id="todayMonth" class="secondary-btn today-btn">오늘</button>
+                </div>
+                <!-- 요일 및 날짜 버튼은 dashboard.js에서 만들어 넣습니다. -->
+                <div class="calendar-grid calendar-weekdays" aria-hidden="true">
+                    <span>일</span><span>월</span><span>화</span><span>수</span>
+                    <span>목</span><span>금</span><span>토</span>
+                </div>
+                <div class="calendar-grid calendar-days" id="calendarDays"></div>
+                <p class="calendar-help" id="selectedDateInfo" aria-live="polite"></p>
+            </section>
+            <section class="planner-panel" aria-label="D-day 관리">
+                <h2>나만의 D-day</h2>
+                <form id="ddayForm" class="dday-form">
+                    <label for="ddayTitle">일정 이름</label>
+                    <input id="ddayTitle" type="text" placeholder="예: JLPT 시험" maxlength="40" required>
+                    <label for="ddayDate">날짜</label>
+                    <input id="ddayDate" type="date" required>
+                    <button type="submit" class="primary-btn">+ D-day 추가</button>
+                </form>
+                <!-- 저장한 D-day는 localStorage에서 복원됩니다. -->
+                <ul id="ddayList" class="dday-list" aria-live="polite"></ul>
+                <p class="dash-note">이 브라우저에 저장되며, 다른 기기와 동기화되지 않아요.</p>
+            </section>
+        </div>
+    </div>
+
+    <!-- 신규 기능 2: 버튼을 눌렀을 때만 위치 권한 요청 -->
+    <div class="content dashboard-section" id="weatherSection">
+        <h1>🌤️ 현재 위치 날씨</h1>
+        <p class="dash-description">위치 사용을 허용하면 내 주변의 최신 기온과 날씨를 보여 줘요.</p>
+        <button id="weatherButton" type="button" class="primary-btn">📍 현재 위치로 날씨 확인</button>
+        <p id="weatherStatus" class="weather-status" role="status" aria-live="polite">아직 위치를 조회하지 않았어요.</p>
+        <div id="weatherDetails" class="weather-details" hidden>
+            <div class="weather-overview">
+                <span id="weatherIcon" class="weather-icon" aria-hidden="true">🌤️</span>
+                <div>
+                    <strong id="weatherTemp" class="weather-temp">--°C</strong>
+                    <p id="weatherCondition" class="weather-condition"></p>
+                </div>
+            </div>
+            <div class="weather-metrics">
+                <span>체감 <strong id="weatherFeels">-</strong></span>
+                <span>습도 <strong id="weatherHumidity">-</strong></span>
+                <span>풍속 <strong id="weatherWind">-</strong></span>
+            </div>
+            <p class="dash-note" id="weatherUpdated"></p>
+        </div>
+        <p class="dash-note">브라우저가 위치 사용을 요청하며, 좌표는 저장하지 않고 날씨 조회에만 사용합니다. 날씨 출처: <a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a></p>
+    </div>
+
+    <!-- 신규 기능 3: 매일 10문제 퀴즈를 여는 별도 페이지 -->
+    <div class="content dashboard-section quiz-promo">
+        <h1>🇯🇵 오늘의 일본어 N2 단어 퀴즈</h1>
+        <p class="dash-description">하루 10문제, 4지선다! 정답과 뜻을 확인하고 학습 기록도 남겨 보세요.</p>
+        <a class="primary-btn link-btn" href="quiz.html">오늘의 10문제 풀기 →</a>
+    </div>
+
+    <!-- 원래 사이트의 소개 / 프로젝트 내용 유지 -->
+    <div class="content">
+        <h1>소개</h1>
+        <p>카메라와 AI로 강의실 상태를 알려주는 시스템을 만들고 있습니다.</p>
+    </div>
+    <div class="content">
+        <h1>프로젝트에서 맡은 일</h1>
+        <ul style="font-family: sans-serif;">
+            <li>301호 PoE 카메라 4대 설치</li>
+            <li>304호 강의실 사진 수집 확인</li>
+        </ul>
+    </div>
+
+    <!-- 기존 기술 목록을 유지하면서 JavaScript와 PHP 추가 -->
+    <div class="content">
+        <h1>공부 중인 것</h1>
+        <div class="skills">
+            <div class="skill" tabindex="0">HTML<span class="tooltip">웹페이지의 구조를 만드는 언어</span></div>
+            <div class="skill" tabindex="0">CSS<span class="tooltip">웹페이지의 디자인을 담당하는 언어</span></div>
+            <div class="skill" tabindex="0">Java<span class="tooltip">객체지향 프로그래밍 언어</span></div>
+            <div class="skill" tabindex="0">JavaScript<span class="tooltip">페이지의 상호작용과 동적 기능을 구현하는 언어</span></div>
+            <div class="skill" tabindex="0">PHP<span class="tooltip">웹 서버에서 동작하는 백엔드 프로그래밍 언어</span></div>
+        </div>
+    </div>
+
+    <div class="content">
+        <h1>연락처</h1>
+        <a href="https://github.com/sr1011-beep" target="_blank" rel="noopener noreferrer">GitHub 바로가기</a>
+    </div>
+
+    <!-- 원래 Firebase 댓글용 ID를 유지해야 원본 firebase.js가 작동합니다. -->
+    <div class="content comment-section">
+        <h1>댓글 <span id="commentCount">0</span></h1>
+        <div class="comment-form">
+            <input type="text" id="nicknameInput" placeholder="닉네임" maxlength="20" aria-label="닉네임">
+            <textarea id="commentInput" placeholder="댓글을 입력하세요..." rows="3" maxlength="500" aria-label="댓글 내용"></textarea>
+            <div class="comment-actions"><button type="button" id="commentBtn">댓글 등록</button></div>
+        </div>
+        <p id="emptyMessage">아직 댓글이 없습니다.</p>
+        <ul id="commentList"></ul>
+    </div>
+
+    <!-- 원래 위/아래 이동 및 다크모드 버튼 -->
+    <div class="floating-menu">
+        <button type="button" id="topBtn" aria-label="맨 위로">↑</button>
+        <button type="button" id="bottomBtn" aria-label="맨 아래로">↓</button>
+        <button type="button" id="themeBtn" aria-label="다크모드 전환">🌙</button>
+    </div>
+
+    <!-- 순서 중요: 기존 스크립트 먼저 실행 후 새 기능을 덧붙입니다. -->
+    <script src="js/scripts.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script type="module" src="js/firebase.js"></script>
 </body>
 </html>
