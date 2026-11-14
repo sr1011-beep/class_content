@@ -196,6 +196,7 @@
 
     function saveAnswers() {
         try {
+            // 오늘 퀴즈 진도는 기존 저장 키를 그대로 사용해 이전 답변을 보존합니다.
             localStorage.setItem(storageKey, JSON.stringify(answers));
         } catch (error) {
             console.warn("퀴즈 진도 저장 실패:", error);

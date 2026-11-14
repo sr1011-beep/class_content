@@ -1,172 +1,134 @@
-/* ========================================
-   신규 대시보드 전용 스타일
-   원래 CSS를 덮어쓰지 않도록 클래스 이름 분리
-======================================== */
+/* ============================================================
+   SR Studio · 대시보드 기능 통합 CSS
+   중요: style.css / todo.css / comment.css는 건드리지 않습니다.
+   새로운 기능에만 dashboard- / feature- 접두어와 해당 클래스 사용.
+   공통 .panel, .section-heading-row 등의 원래 디자인을 상속합니다.
+============================================================ */
 
-/* 폰트, 여백, 상자 크기 계산을 일관되게 설정 */
-.dashboard-section, .dashboard-section *, .quick-nav *, .quiz-shell, .quiz-shell * {
-    box-sizing: border-box;
+/* (1) 기존 할 일 보드 안에 들어가는 3개 기능 바로가기 */
+.task-utility-strip, .task-utility-strip * ,
+.dashboard-integrations, .dashboard-integrations * { box-sizing: border-box; }
+.task-utility-strip { margin: 20px 0 24px; padding: 18px 20px; border: 1px solid #e3e7ef; border-radius: 15px; background: #f8f9fc; }
+.task-utility-heading { display: flex; align-items: baseline; flex-wrap: wrap; column-gap: 12px; row-gap: 5px; margin-bottom: 13px; }
+.task-utility-heading strong { font-size: 15px; }
+.task-utility-eyebrow { font-size: 10px; letter-spacing: .14em; color: #7182a0; font-weight: 800; }
+.task-utility-caption { font-size: 12px; color: #7e899d; }
+.task-utility-links { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 10px; }
+.task-utility-link { min-width: 0; display: flex; align-items: center; gap: 11px; padding: 13px; background: #fff; border: 1px solid #e5e9f2; border-radius: 12px; color: inherit; text-decoration: none; transition: border-color .15s, transform .15s; }
+.task-utility-link:hover, .task-utility-link:focus-visible { border-color: #879ad4; transform: translateY(-1px); }
+.task-utility-link > span:nth-child(2) { flex: 1; min-width: 0; }
+.task-utility-link strong { display: block; font-size: 13px; font-weight: 700; }
+.task-utility-link small { display: block; margin-top: 4px; font-size: 11px; color: #748196; line-height: 1.45; }
+.task-utility-icon { display: inline-flex; width: 31px; height: 31px; border-radius: 9px; align-items: center; justify-content: center; background: #edf1fa; font-size: 16px; flex: none; }
+.task-utility-link > span:last-child { flex: none; color: #8995ad; }
+
+/* (2) 새 패널을 main-content 안에 넣어 기존 본문 너비·간격에 맞춤 */
+.dashboard-integrations { min-width: 0; margin: 2px 0 35px; }
+.dashboard-integrations > .section-heading-row { margin-bottom: 18px; }
+.dashboard-feature { margin-bottom: 18px; scroll-margin-top: 90px; }
+.daily-tool-panel { scroll-margin-top: 90px; }
+.feature-panel-heading { display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:12px; margin-bottom:13px; }
+.feature-panel-heading h3, .feature-inner-heading h3 { margin: 5px 0 0; font-size: clamp(17px,2vw,20px); }
+.feature-heading-hint { font-size: 12px; color: #788499; }
+.feature-inner-heading { display:flex; align-items:center; flex-wrap:wrap; justify-content:space-between; gap:10px; margin:0 0 14px; }
+.feature-inner-heading .panel-subtitle { font-size: 11px; }
+.planner-grid { display: grid; grid-template-columns: minmax(0,1.16fr) minmax(300px,.84fr); gap:18px; align-items:stretch; }
+.planner-panel { min-width:0; padding:22px; }
+.daily-tool-grid { display:grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap:18px; align-items:stretch; }
+.daily-tool-panel { min-width:0; padding:23px; display:flex; flex-direction:column; }
+.dashboard-integrations .dash-description { margin: 0 0 17px; color:#738095; line-height:1.75; font-size:13px; }
+.dashboard-integrations .dash-note { font-size: 11px; line-height:1.7; color:#8290a4; margin: 15px 0 0; }
+.dashboard-integrations .dash-note a { color:inherit; text-underline-offset: 2px; }
+
+/* (3) 캘린더 UI; 브라우저 및 원래 카드의 색·폰트를 상속 */
+.calendar-toolbar { display:flex; align-items:center; gap:8px; margin-bottom:13px; }
+.calendar-toolbar strong { min-width:0; flex:1; text-align:center; white-space:nowrap; font-size:15px; }
+.dashboard-integrations button { font: inherit; cursor:pointer; }
+.feature-primary-btn, .feature-secondary-btn { border: 0; border-radius: 9px; padding:10px 14px; font-size:13px; font-weight:700; transition:filter .15s, background .15s; }
+.feature-primary-btn { background:#556bb5; color:white; }
+.feature-primary-btn:hover { filter:brightness(.92); }
+.feature-primary-btn:disabled { cursor:wait; opacity:.65; }
+.feature-secondary-btn { background:#edf0f7; color:#42516b; }
+.feature-secondary-btn:hover { background:#e0e7f5; }
+.calendar-toolbar .feature-secondary-btn { min-width:34px; padding:7px 10px; flex-shrink:0; }
+.calendar-grid { display:grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap:4px; }
+.calendar-weekdays { font-size:11px; color:#8792a6; text-align:center; font-weight:700; margin: 0 0 7px; }
+.calendar-weekdays > span { padding:6px 0; }
+.calendar-weekdays > span:first-child { color:#d36c77; }
+.calendar-weekdays > span:last-child { color:#607fc9; }
+.calendar-day { position:relative; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px; border:1px solid transparent; background:transparent; color:inherit; width:100%; min-width:0; min-height:43px; border-radius:8px; padding:5px 2px; }
+.calendar-day:hover { background: #edf2fc; }
+.calendar-day.outside-month { opacity:.33; }
+.calendar-day.is-today { border-color: #92a5d2; font-weight:800; }
+.calendar-day.is-selected { background:#556bb5; color:#fff; }
+.calendar-day .day-number { font-size:13px; }
+.calendar-day .event-dots { font-size:9px; color:#596db4; white-space:nowrap; }
+.calendar-day.is-selected .event-dots { color:#fff; }
+.calendar-help { font-size:11px; margin:12px 0 0; color:#8390a2; }
+
+/* (4) D-day 등록 폼 & 리스트 */
+.dday-form { display:grid; gap:8px; }
+.dday-form label { font-size:12px; font-weight:700; color:#56637a; }
+.dday-form input { min-width:0; width:100%; border:1px solid #e0e5ed; border-radius:9px; background:#fff; color:#2d394b; padding:11px 12px; font:inherit; font-size:13px; }
+.dday-form .feature-primary-btn { margin-top:5px; }
+.dday-list { list-style:none; margin:16px 0 0; padding:0; display:grid; gap:8px; }
+.dday-item { display:flex; justify-content:space-between; align-items:center; gap:9px; min-width:0; padding:11px; border:1px solid #e6eaf1; border-radius:10px; background:#f8f9fc; }
+.dday-item-main { min-width:0; }
+.dday-item-name { font-weight:700; font-size:13px; overflow-wrap:anywhere; }
+.dday-item-date { display:block; font-size:11px; color:#8190a4; margin-top:4px; }
+.dday-item-actions { flex:none; display:flex; align-items:center; gap:4px; }
+.dday-badge { display:inline-block; padding:5px 7px; border-radius:999px; background:#e9eefa; color:#526bb1; font-size:11px; font-weight:800; white-space:nowrap; }
+.dday-delete { border:0; background:transparent; color:#8894a7; padding:5px; font-size:18px !important; }
+.dday-delete:hover { color:#c44e64; }
+.dday-empty { font-size:12px; color:#8693a6; padding:5px 0; }
+
+/* (5) 날씨와 N2 퀴즈 카드. 동일한 기본 .panel 디자인 사용 */
+.weather-panel .feature-primary-btn { align-self:flex-start; }
+.weather-status { font-size:12px; color:#7a8799; margin:13px 0 0; }
+.weather-details { margin: 14px 0 0; padding:15px; border-radius:11px; background:#f5f7fb; border:1px solid #e7ebf4; }
+.weather-details[hidden] { display:none; }
+.weather-overview { display:flex; align-items:center; gap:15px; }
+.weather-icon { font-size:40px; }
+.weather-temp { font-size:28px; letter-spacing:-.04em; }
+.weather-condition { font-size:13px; color:#788499; margin:3px 0 0; }
+.weather-metrics { margin:13px 0 0; display:flex; flex-wrap:wrap; gap:9px; }
+.weather-metrics > span { background:#fff; border:1px solid #e9edf4; border-radius:8px; padding:7px 9px; color:#718093; font-size:11px; }
+.weather-metrics strong { color:#41516b; }
+.quiz-mini-summary { background:#f5f7fb; border:1px solid #e5ebf4; border-radius:10px; padding:14px; margin:0 0 18px; color:#526588; font-size:13px; }
+.feature-link-btn { display:inline-flex; justify-content:space-between; gap:20px; align-items:center; text-decoration:none; align-self:stretch; margin-top:auto; }
+.feature-link-btn:hover { color:#fff; }
+
+/* (6) 원래 다크모드에서는 새 요소만 따로 대응. 원본 body, svg, 카드에는 영향 없음 */
+body.dark .task-utility-strip { background:#242e3c; border-color:#3c4757; }
+body.dark .task-utility-link, body.dark .dday-item { background:#2c3645; border-color:#485364; color:#f4f7fc; }
+body.dark .task-utility-eyebrow, body.dark .task-utility-caption, body.dark .task-utility-link small,
+body.dark .feature-heading-hint, body.dark .dash-description, body.dark .dashboard-integrations .dash-description,
+body.dark .dashboard-integrations .dash-note, body.dark .dday-form label, body.dark .dday-item-date,
+body.dark .calendar-help, body.dark .weather-status, body.dark .weather-condition { color:#b1bdcf; }
+body.dark .feature-secondary-btn { background:#3a475b; color:#eff4fc; }
+body.dark .feature-secondary-btn:hover, body.dark .calendar-day:hover { background:#46536b; }
+body.dark .dday-form input { background:#222a39; color:#f1f5fc; border-color:#4a5669; color-scheme:dark; }
+body.dark .dday-badge { background:#3b4d6e; color:#dce8ff; }
+body.dark .weather-details, body.dark .quiz-mini-summary { background:#283344; border-color:#435066; color:#dfebff; }
+body.dark .weather-metrics > span { background:#354258; border-color:#48566a; color:#dae4f4; }
+body.dark .weather-metrics strong { color:#f7f9ff; }
+body.dark .task-utility-icon { background:#3b475c; }
+body.dark .calendar-weekdays { color:#b4c1d1; }
+
+/* (7) 모니터 크기에 따라 기존 대시보드 그리드처럼 반응형으로 변환 */
+@media (max-width: 1050px) {
+ .planner-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+ .planner-panel { padding:17px; }
 }
-
-/* 인트로 아래 빠른 이동 링크 */
-.quick-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 26px;
+@media (max-width: 850px) {
+ .planner-grid, .daily-tool-grid { grid-template-columns:minmax(0,1fr); }
+ .task-utility-links { grid-template-columns: repeat(3,minmax(0,1fr)); }
 }
-.quick-nav a {
-    padding: 10px 16px;
-    border-radius: 999px;
-    background: rgba(255, 255, 255, 0.18);
-    color: #fff;
-    text-decoration: none;
-    font-weight: 600;
-    transition: background 0.2s ease;
-}
-.quick-nav a:hover, .quick-nav a:focus-visible {
-    background: rgba(255, 255, 255, 0.3);
-}
-
-/* 기존 .content와 조화되도록 부드러운 카드 스타일 */
-.dashboard-section {
-    border-radius: 16px;
-    font-family: "Pretendard", "Noto Sans KR", system-ui, sans-serif;
-}
-.dashboard-section > h1 { margin-top: 0; }
-.dash-description { margin: 8px 0 23px; color: #64748b; line-height: 1.6; }
-.dash-note { font-size: 12px; color: #7b8795; line-height: 1.6; }
-
-/* 캘린더와 D-day를 넓은 화면에서는 2열, 작은 화면에서는 1열로 */
-.planner-grid {
-    display: grid;
-    grid-template-columns: minmax(0, 1.15fr) minmax(250px, 0.85fr);
-    gap: 22px;
-}
-.planner-panel {
-    min-width: 0;
-    padding: 22px;
-    border: 1px solid #e3e8f0;
-    border-radius: 14px;
-    background: #f8fafc;
-}
-.planner-panel h2 { font-size: 19px; margin: 0 0 16px; }
-
-/* 월 이동 버튼, 오늘 이동 버튼 */
-.calendar-toolbar { display: flex; justify-content: center; align-items: center; gap: 8px; margin-bottom: 18px; }
-.calendar-toolbar strong { flex: 1; text-align: center; font-size: 18px; white-space: nowrap; }
-.primary-btn, .secondary-btn {
-    border: 0;
-    border-radius: 10px;
-    padding: 11px 16px;
-    font: inherit;
-    cursor: pointer;
-}
-.primary-btn { background: #526fb5; color: #fff; font-weight: 700; }
-.primary-btn:hover { background: #3f5e9d; }
-.secondary-btn { background: #e6ecf5; color: #344660; }
-.secondary-btn:hover { background: #d3dfed; }
-.calendar-toolbar > button { flex-shrink: 0; min-width: 35px; padding: 8px 9px; }
-.calendar-toolbar .today-btn { font-size: 12px; }
-
-/* 일~토 7열 구조 */
-.calendar-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 5px; }
-.calendar-weekdays { text-align: center; margin-bottom: 8px; color: #64748b; font-size: 12px; font-weight: 700; }
-.calendar-weekdays > span { padding: 7px 0; }
-.calendar-weekdays > span:first-child { color: #d65f6c; }
-.calendar-weekdays > span:last-child { color: #5d80d2; }
-.calendar-day {
-    position: relative;
-    min-height: 56px;
-    width: 100%;
-    border: 1px solid transparent;
-    border-radius: 9px;
-    background: transparent;
-    color: inherit;
-    cursor: pointer;
-    text-align: center;
-    padding: 7px 2px 5px;
-    font: inherit;
-}
-.calendar-day:hover { background: #edf1fb; }
-.calendar-day.outside-month { opacity: 0.35; }
-.calendar-day.is-today { border-color: #7394d3; font-weight: 800; }
-.calendar-day.is-selected { background: #526fb5; color: #fff; }
-.calendar-day .day-number { display: block; font-size: 14px; }
-.calendar-day .event-dots { display: block; margin-top: 3px; font-size: 10px; font-weight: 700; color: #526fb5; }
-.calendar-day.is-selected .event-dots { color: #fff; }
-.calendar-help { font-size: 13px; margin: 16px 0 0; color: #64748b; }
-
-/* D-day 입력 폼 / 목록 */
-.dday-form { display: grid; gap: 8px; }
-.dday-form label { color: #526276; font-size: 13px; font-weight: 700; }
-.dday-form input {
-    width: 100%;
-    padding: 11px 12px;
-    border: 1px solid #d9e0ea;
-    background: #fff;
-    border-radius: 9px;
-    color: #243044;
-    font: inherit;
-}
-.dday-form button { margin-top: 4px; }
-.dday-list { padding: 0; margin: 22px 0 0; list-style: none; display: grid; gap: 9px; }
-.dday-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px; border-radius: 11px; background: #fff; border: 1px solid #e6eaf1; }
-.dday-item-main { min-width: 0; }
-.dday-item-name { display: block; font-weight: 700; overflow-wrap: anywhere; }
-.dday-item-date { display: block; margin-top: 4px; font-size: 12px; color: #68788b; }
-.dday-item-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.dday-badge { color: #345b9b; background: #e8f0ff; border-radius: 999px; padding: 6px 8px; font-weight: 800; white-space: nowrap; font-size: 12px; }
-.dday-delete { border: 0; background: transparent; color: #77859a; cursor: pointer; font-size: 19px; padding: 4px 6px; }
-.dday-delete:hover { color: #cf4b60; }
-.dday-empty { margin: 0; font-size: 13px; color: #708090; }
-
-/* 실제 날씨 조회 카드 */
-.weather-status { margin: 14px 0 0; color: #64748b; font-size: 14px; }
-.weather-details { margin-top: 18px; max-width: 550px; padding: 22px; border-radius: 14px; background: #f2f6fc; border: 1px solid #e3eaf5; }
-.weather-details[hidden] { display: none; }
-.weather-overview { display: flex; align-items: center; gap: 18px; }
-.weather-icon { font-size: 52px; }
-.weather-temp { font-size: 32px; line-height: 1.2; }
-.weather-condition { margin: 4px 0 0; color: #61718a; }
-.weather-metrics { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 18px; }
-.weather-metrics > span { background: #fff; color: #42516a; border-radius: 8px; padding: 10px 12px; font-size: 13px; }
-.weather-metrics strong { color: #1c3760; }
-
-/* 퀴즈 바로가기 링크를 버튼처럼 표시 */
-.link-btn { display: inline-flex; text-decoration: none; align-items: center; }
-
-/* 좁은 화면에서 skill 툴팁과 달력 자연스럽게 줄 바꿈 */
-.skills { flex-wrap: wrap; }
-.skill:focus-visible { outline: 2px solid #526fb5; outline-offset: 2px; }
-.skill:focus-visible .tooltip { display: block; }
-
-/* 기존 다크모드에 맞춘 신규 컴포넌트 스타일 */
-body.dark .dash-description,
-body.dark .dash-note,
-body.dark .calendar-help,
-body.dark .weather-status { color: #aebcce; }
-body.dark .planner-panel, body.dark .weather-details { background: #333943; border-color: #4a5361; }
-body.dark .secondary-btn { background: #424c5b; color: #f3f7ff; }
-body.dark .secondary-btn:hover, body.dark .calendar-day:hover { background: #4e5b6f; }
-body.dark .calendar-weekdays, body.dark .dday-form label, body.dark .dday-item-date, body.dark .weather-condition { color: #b5c3d4; }
-body.dark .dday-form input { background: #252a33; border-color: #566071; color: #fff; color-scheme: dark; }
-body.dark .dday-item, body.dark .weather-metrics > span { background: #262d37; border-color: #4c5768; color: #edf2fb; }
-body.dark .dday-badge { background: #3a5178; color: #e5efff; }
-body.dark .weather-metrics strong { color: #f3f8ff; }
-
-@media (max-width: 800px) {
-    .planner-grid { grid-template-columns: minmax(0, 1fr); }
-    .dashboard-section { padding: 20px; }
-    .planner-panel { padding: 15px; }
-    .calendar-day { min-height: 49px; }
-}
-@media (max-width: 480px) {
-    .intro { padding: 30px 16px; }
-    .dashboard-section { padding: 16px; }
-    .calendar-grid { gap: 2px; }
-    .calendar-day { min-height: 42px; }
-    .calendar-toolbar strong { font-size: 15px; }
-    .floating-menu { right: 6px; }
+@media (max-width: 600px) {
+ .task-utility-links { grid-template-columns: minmax(0,1fr); }
+ .task-utility-strip { padding:14px; }
+ .planner-panel, .daily-tool-panel { padding:16px; }
+ .calendar-grid { gap:2px; }
+ .calendar-day { min-height:41px; }
+ .feature-panel-heading { align-items:flex-start; }
 }

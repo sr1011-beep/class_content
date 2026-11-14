@@ -313,21 +313,115 @@
     });
 
     /* -------------------------
-       5. 원래 다크모드와 다른 페이지의 테마 동기화
+       5. 원본 다크모드와 충돌 없는 동기화
+       주의: 기존 테마 버튼의 SVG를 textContent로 덮어쓰지 않습니다.
     ------------------------- */
-    function applySavedTheme() {
-        // 기존 scripts.js의 클릭 이벤트는 그대로 사용하고 현재 테마만 저장합니다.
-        const saved = localStorage.getItem(THEME_STORAGE_KEY);
-        if (saved === "dark") document.body.classList.add("dark");
-        else if (saved === "light") document.body.classList.remove("dark");
-        $("themeBtn").textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+    function reflectThemeIcon() {
+        const toggle = $("themeBtn");
+        const iconUse = toggle?.querySelector("svg use");
+        if (iconUse) {
+            iconUse.setAttribute("href", document.body.classList.contains("dark") ? "#i-sun" : "#i-moon");
+        }
     }
-    $("themeBtn").addEventListener("click", () => {
-        try {
-            localStorage.setItem(THEME_STORAGE_KEY, document.body.classList.contains("dark") ? "dark" : "light");
-        } catch (error) { console.warn("테마 저장 실패:", error); }
-    });
 
+    function applySavedTheme() {
+        try {
+            const saved = localStorage.getItem(THEME_STORAGE_KEY);
+            // 기존 스크립트의 다크모드 상태가 있다면 그 상태를 우선 사용합니다.
+            if (saved === "dark") document.body.classList.add("dark");
+            if (saved === "light") document.body.classList.remove("dark");
+        } catch (error) { console.warn("테마 설정 읽기 실패:", error); }
+        reflectThemeIcon();
+    }
+
+    // 기존 scripts.js의 클릭 리스너에서 다크모드 클래스를 토글한 후 저장합니다.
+    const themeBtn = $("themeBtn");
+    if (themeBtn) {
+        themeBtn.addEventListener("click", () => {
+            requestAnimationFrame(() => {
+                reflectThemeIcon();
+                try {
+                    localStorage.setItem(THEME_STORAGE_KEY,
+                        document.body.classList.contains("dark") ? "dark" : "light");
+                } catch (error) { console.warn("테마 저장 실패:", error); }
+            });
+        });
+    }
+
+    /* -------------------------
+       6. 기존 Kanban에 캘린더·날씨·퀴즈 할 일을 1회만 추가
+       직접 todos 배열 형식을 추측하지 않고 기존 '추가' 버튼의 로직을 재사용합니다.
+       사용자가 삭제했을 때 강제로 다시 만들지 않도록 저장 플래그를 남깁니다.
+    ------------------------- */
+    const DEFAULT_TASKS_KEY = "dashboard_default_utility_tasks_v1";
+    const STARTER_TASKS = [
+        "📅 D-day 일정 확인하기",
+        "🌤️ 현재 위치 날씨 확인하기",
+        "🇯🇵 일본어 N2 단어 10문제 풀기"
+    ];
+
+    function addUtilityTasksOnce() {
+        const input = $("todoInput");
+        const add = $("addBtn");
+        const status = $("newTodoStatus");
+        if (!input || !add) return;
+        try {
+            if (localStorage.getItem(DEFAULT_TASKS_KEY) === "done") return;
+            // 원래 Todo 데이터가 배열인지 검사해 중복 추가를 방지합니다.
+            const saved = JSON.parse(localStorage.getItem("todos") || "[]");
+            const existing = Array.isArray(saved) ? saved : [];
+            const contents = existing.map((item) => [item?.text, item?.title, item?.content, item?.task].filter(Boolean).join(" "));
+            const previousInput = input.value;
+            const previousStatus = status?.value;
+            let created = 0;
+
+            STARTER_TASKS.forEach((taskTitle) => {
+                if (contents.some((text) => text.includes(taskTitle))) return;
+                // 기존 사용자의 할 일 등록 핸들러가 검증·저장·화면 갱신을 수행합니다.
+                input.value = taskTitle;
+                if (status) status.value = "todo";
+                add.click();
+                created += 1;
+            });
+
+            // 기존 사용자의 입력값과 선택 상태를 복원합니다.
+            input.value = previousInput;
+            if (status && previousStatus) status.value = previousStatus;
+            // 기존 handler가 작동했다면 다음 방문에 다시 추가하지 않습니다.
+            if (created === 0 || (Array.isArray(JSON.parse(localStorage.getItem("todos") || "[]")) &&
+                JSON.parse(localStorage.getItem("todos") || "[]").length >= existing.length + created)) {
+                localStorage.setItem(DEFAULT_TASKS_KEY, "done");
+            }
+        } catch (error) {
+            console.warn("기본 할 일 등록을 건너뛰었습니다:", error);
+        }
+    }
+
+    /* -------------------------
+       7. 퀴즈 학습 진도: 퀴즈 페이지의 저장 결과를 읽어 바로가기에 표시
+    ------------------------- */
+    function showQuizProgress() {
+        const date = dateKey(new Date());
+        const progressKey = `mypage_n2_quiz_v1_${date}`;
+        const routine = $("quizRoutineStatus");
+        const summary = $("quizMiniSummary");
+        try {
+            const saved = JSON.parse(localStorage.getItem(progressKey) || "{}");
+            const solved = Object.keys(saved || {}).length;
+            const text = solved >= 10 ? "오늘 10문제 완료 ✓" : solved > 0 ? `${solved}/10문제 풀었어요` : "오늘의 학습 시작";
+            if (routine) routine.textContent = text;
+            if (summary) summary.textContent = solved >= 10 ? "오늘의 일본어 단어 10문제를 모두 풀었어요! 내일 새로운 문제가 열려요." : `${solved}/10문제 완료 · 정답을 고르면 읽는 법과 뜻을 확인할 수 있어요.`;
+        } catch (error) { console.warn("퀴즈 진도 읽기 실패:", error); }
+    }
+
+    // defer로 실행된 기존 scripts.js가 이벤트를 등록한 뒤 할 일을 추가합니다.
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", addUtilityTasksOnce, { once: true });
+    } else {
+        addUtilityTasksOnce();
+    }
+    showQuizProgress();
+    window.addEventListener("pageshow", showQuizProgress);
     // 초기 화면 표시. 이후 날짜가 변경되면 D-day와 달력을 자동 갱신합니다.
     $("ddayDate").value = selectedKey;
     renderCalendar();
@@ -339,6 +433,7 @@
             lastTodayKey = now;
             renderCalendar();
             renderDdays();
+            showQuizProgress();
         }
     }, 60000);
 })();

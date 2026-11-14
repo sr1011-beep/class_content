@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>오늘의 N2 단어 퀴즈 | 自己紹介</title>
+    <!-- 기존 메인 페이지의 기본 디자인과 신규 퀴즈 디자인 적용 -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="css/quiz.css">
+</head>
+<body>
+    <main class="quiz-shell">
+        <header class="quiz-header">
+            <a href="index.html" class="back-link">← 자기소개 페이지로</a>
+            <button type="button" id="quizThemeBtn" class="secondary-btn" aria-label="다크모드 전환">🌙</button>
+        </header>
+        <div class="quiz-hero">
+            <span class="quiz-label">JAPANESE VOCAB · N2 PRACTICE</span>
+            <h1>오늘의 일본어 단어 10문제</h1>
+            <p>매일 달라지는 N2 수준 단어 퀴즈. 정답을 고르면 읽는 법과 뜻을 알려 줘요.</p>
+            <p id="quizDate" class="quiz-date"></p>
+        </div>
+        <section class="content quiz-card" aria-label="단어 퀴즈">
+            <div class="quiz-progress-row">
+                <strong id="quizProgressText">준비 중...</strong>
+                <span id="quizScore">0점</span>
+            </div>
+            <div class="quiz-progress-track" aria-hidden="true"><div id="quizProgressBar"></div></div>
+            <!-- 질문/선택지/결과는 quiz.js가 DOM으로 생성합니다. -->
+            <div id="quizStage" aria-live="polite"></div>
+        </section>
+        <p class="quiz-footnote">* JLPT 공식 출제 목록이 아니라 N2 수준 연습용 단어 모음입니다. 오늘의 진도는 브라우저에 저장돼요.</p>
+    </main>
+    <!-- quiz.html에서는 Todo 요소가 없으므로 원본 scripts.js를 불러오지 않습니다. -->
+    <script src="js/quiz.js"></script>
+</body>
+</html>

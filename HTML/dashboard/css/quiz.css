@@ -42,3 +42,13 @@ body.dark .quiz-option.incorrect { background: #653c45; border-color: #d7747d; c
 body.dark .quiz-feedback { background: #39475a; }
 body.dark .quiz-review-list small { color: #aebed2; }
 @media(max-width: 530px) { .quiz-shell { padding: 17px 13px 45px; } .quiz-card { padding: 18px; } .quiz-options { grid-template-columns: 1fr; } }
+
+/* 독립 퀴즈 페이지: 기존 사이트 CSS가 없어도 단독으로 잘 표시됨 */
+body { margin:0; color:#1f2b44; background:#f4f6fb; }
+.quiz-card { background:#fff; padding:30px; border:1px solid #e2e8f0; }
+.quiz-header .secondary-btn { background:#e7edfa; border:0; border-radius:10px; padding:10px 15px; color:#355585; cursor:pointer; }
+.quiz-shell .primary-btn { background:#526fb5; border:0; color:white; font-weight:700; border-radius:10px; padding:12px 18px; cursor:pointer; }
+.quiz-shell .primary-btn:hover { background:#3e5b9b; }
+body.dark { background:#151a24; color:#eef3ff; }
+body.dark .quiz-card { background:#232c3b; border-color:#39465a; }
+body.dark .quiz-header .secondary-btn { background:#344157; color:#f1f5fc; }
