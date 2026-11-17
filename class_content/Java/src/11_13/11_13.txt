@@ -1,4 +1,5 @@
 1. 자바에서 입출력 (I/O)
+
 (1) byte stream 계열 : 1byte 단위로 데이터 읽기/쓰기
 - 대표 클래스
 InputStream : 1byte 단위로 읽기 -> 추상화 클래스
@@ -10,10 +11,14 @@ FileOutputStream: : 1byte 단위로 파일에 쓰기
 
 *String class의 getByte() 메소드
  : 문자열 -> byte 배열로 변경
+   String str = "ABC가나다";
+   fos.write( str.getByte() );
+
 *byte 배열 -> 문자열 변경
 : byte[] b = new byte[256];
-  String str = new String(b);
-  String str = new String( b );str.trim(); //trim() : 빈 공백 제거
+  fis.read( b );
+  String str = new String( b );   // byte 배열 -> 문자열로 변경
+  System.out.println(str.trim() );  //trim() : 빈 공백 제거
 
 
 -성능 향상을 위한 byte stream 계열클래스
